@@ -1,5 +1,8 @@
 -swf bin/fact.swf
 -cp src
 -main Main
+-lib feffects
 -swf-header 800:600:30:FFFFFF
 -cmd flashplayer bin/fact.swf
+-swf-version 11.2
+-debug

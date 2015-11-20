@@ -1,3 +1,4 @@
+import events.GUIEvent;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.ui.Keyboard;
@@ -27,6 +28,19 @@ class Controller
 
     private function onKeyUp(e:KeyboardEvent)
     {
+        if (e.keyCode == Keyboard.I) //Inventory open request
+        {
+            EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_INVENTORY));
+        }
+        if (e.keyCode == Keyboard.C) //Craft open request
+        {
+            EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_CRAFT_WINDOW));
+        }
+        else if (e.keyCode == Keyboard.ESCAPE) //Close active window
+        {
+            EventManager.dispatch(new GUIEvent(GUIEvent.CLOSE_ACTIVE_WINDOW));
+        }
+
         keys.set(e.keyCode, false);
     }
 

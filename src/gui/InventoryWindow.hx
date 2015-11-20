@@ -1,0 +1,62 @@
+package gui;
+
+import flash.display.Shape;
+import flash.display.Sprite;
+import model.Inventory;
+import model.Item;
+
+class InventoryWindow extends Window
+{
+    static private inline var WINDOW_WIDTH:Int = 400;
+    static private inline var WINDOW_HEIGHT:Int = 300;
+    static private inline var MARGIN:Int = 30;
+
+    var inventoryModel:Inventory;
+
+    public function new(inv:Inventory)
+    {
+        this.inventoryModel = inv;
+
+        super("Inventory", WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+
+    override public function update()
+    {
+        clear();
+
+        var numPerLine = Math.floor((WINDOW_WIDTH - MARGIN * 2) / Item.ITEM_WIDTH);
+        var numLine = Math.floor((WINDOW_HEIGHT - MARGIN * 2) / Item.ITEM_HEIGHT);
+
+        var n = 0;
+        for (i in inventoryModel.getItems())
+        {
+            var itemSprite = i.render();
+            itemSprite.x = MARGIN + (n % numPerLine) * (itemSprite.width + 5);
+            itemSprite.y = MARGIN + Math.floor(n / numPerLine) * (itemSprite.height + 5);
+            addChild(itemSprite);
+
+            n++;
+        }
+
+        var i = 0;
+        for (x in 0...numPerLine)
+        {
+            for (y in 0...numLine)
+            {
+                if (n <= i)
+                {
+                    var empty = new Shape();
+                    empty.graphics.lineStyle(1, 0x000000);
+                    empty.graphics.beginFill(0xFFFFFF);
+                    empty.graphics.drawRect(0, 0, Item.ITEM_WIDTH, Item.ITEM_HEIGHT);
+                    empty.x = MARGIN + (i % numPerLine) * (empty.width + 5);
+                    empty.y = MARGIN + Math.floor(i / numPerLine) * (empty.height + 5);
+                    addChild(empty);
+                }
+
+                i++;
+            }
+        }
+    }
+
+}

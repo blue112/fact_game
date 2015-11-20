@@ -20,9 +20,9 @@ class Viewport extends Sprite
         this.map = map;
 
         this.addChild(map);
-        this.addChild(char);
 
         char.addEventListener(CharEvent.CHAR_MOVED, updateMapPos);
+        updateMapPos(null);
     }
 
     public function updateMapPos(_)
