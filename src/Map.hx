@@ -119,7 +119,11 @@ class Map extends Sprite
 
     private function onRotateBuildAsked(_)
     {
-        if (hoveredBuilding != null)
+        if (currentBuilding != null)
+        {
+            currentBuilding.rotate();
+        }
+        else if (hoveredBuilding != null)
         {
             hoveredBuilding.rotate();
         }

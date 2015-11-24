@@ -10,10 +10,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Belt conveyors
 - Add map layers
 - Add drop shadow to floor items
+- Rotate a building while placing it
 
 #Todo
 
-- Rotate a building while placing it
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
 - Add nice graphics (help needed)
