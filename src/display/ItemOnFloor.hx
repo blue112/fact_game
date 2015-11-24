@@ -25,6 +25,8 @@ class ItemOnFloor extends Sprite
         this.posX = posX;
         this.posY = posY;
 
+        filters = [new flash.filters.GlowFilter(0xFFFFFF, 0.8, 2, 2, 10)];
+
         this.x = this.posX * Map.TILE_WIDTH;
         this.y = this.posY * Map.TILE_HEIGHT;
     }
