@@ -15,13 +15,13 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Rotate a building while placing it
 - Map save
 - Chests
+- Automatic inventory view refresh when model changes
 
 # Todo
 
-- Automatic inventory view refresh when model changes
+- Save chest inventory
 - Oven (Iron + Coal => Iron Bars)
 - Crafting machines (input components => output result)
-- Save chest inventory
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
 - Add nice graphics (help needed)

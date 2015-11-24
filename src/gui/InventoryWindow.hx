@@ -20,12 +20,21 @@ class InventoryWindow extends Window
     {
         this.inventoryModel = inv;
 
+        inv.addEventListener(InventoryEvent.CHANGE, onInventoryChange);
+
         super("Inventory", WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
     public function setInventory(inv:Inventory)
     {
+        inv.removeEventListener(InventoryEvent.CHANGE, onInventoryChange);
         this.inventoryModel = inv;
+        inv.addEventListener(InventoryEvent.CHANGE, onInventoryChange);
+    }
+
+    private function onInventoryChange(_)
+    {
+        update();
     }
 
     override public function update()

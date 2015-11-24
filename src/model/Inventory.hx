@@ -2,14 +2,17 @@ package model;
 
 import display.FloatingMessage;
 import events.InventoryEvent;
+import flash.events.EventDispatcher;
 import model.Item.ItemType;
 
-class Inventory
+class Inventory extends EventDispatcher
 {
     var items:Array<Item>;
 
     public function new()
     {
+        super();
+
         items = [];
     }
 
@@ -42,11 +45,13 @@ class Inventory
                 if (i.getQuantity() <= quantity)
                 {
                     items.remove(i);
+                    dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
                     return;
                 }
                 else
                 {
                     i.setQuantity(i.getQuantity() - quantity);
+                    dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
                 }
             }
         }
@@ -80,6 +85,7 @@ class Inventory
             if (i.getType() == item.getType())
             {
                 totalQuantity = i.increase();
+                dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
             }
         }
 
@@ -87,6 +93,7 @@ class Inventory
         {
             //Not found
             items.push(item);
+            dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
         }
 
         //TODO: Handle inventory limit
