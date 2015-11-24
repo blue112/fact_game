@@ -143,8 +143,14 @@ class Building extends Sprite
         var b = fromItem(data.type);
         b.setRotationState(data.rotationState);
         b.build(map, data.posX, data.posY);
+        b.loadData(data);
 
         return b;
+    }
+
+    public function loadData(data:Dynamic)
+    {
+
     }
 
     public function rotate()

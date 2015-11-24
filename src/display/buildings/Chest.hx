@@ -16,6 +16,21 @@ class Chest extends Building
         super(CHEST);
     }
 
+    override public function serialize()
+    {
+        var d:Dynamic = super.serialize();
+        d.inventory = inventory.serialize();
+        return d;
+    }
+
+    override public function loadData(data:Dynamic)
+    {
+        if (data.inventory != null)
+        {
+            inventory.load(data.inventory);
+        }
+    }
+
     override private function acceptItem()
     {
         return true;

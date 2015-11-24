@@ -16,10 +16,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Map save
 - Chests
 - Automatic inventory view refresh when model changes
+- Save chest inventory
 
 # Todo
 
-- Save chest inventory
 - Oven (Iron + Coal => Iron Bars)
 - Crafting machines (input components => output result)
 - [BONUS] Make convert belts move item "visibly slowly"
