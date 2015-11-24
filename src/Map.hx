@@ -34,12 +34,27 @@ class Map extends Sprite
     var tile_hl:Sprite;
     var hoveredBuilding:Null<Building>;
 
+    var tile_layer:Sprite;
+    var building_layer:Sprite;
+    var flooritem_layer:Sprite;
+    var character_layer:Sprite;
+
     public function new()
     {
         super();
 
         hoveredBuilding = null;
         character = null;
+
+        tile_layer = new Sprite();
+        building_layer = new Sprite();
+        flooritem_layer = new Sprite();
+        character_layer = new Sprite();
+
+        for (i in [tile_layer, building_layer, flooritem_layer, character_layer])
+        {
+            addChild(i);
+        }
 
         tiles = new StringMap();
         floorItems = new StringMap();
@@ -50,18 +65,18 @@ class Map extends Sprite
 
         var numField = Std.random(7) + 7;
 
-        this.graphics.beginFill(0xEEEEEE);
-        this.graphics.drawRect(0, 0, MAP_WIDTH * TILE_WIDTH, MAP_HEIGHT * TILE_HEIGHT);
+        tile_layer.graphics.beginFill(0xEEEEEE);
+        tile_layer.graphics.drawRect(0, 0, MAP_WIDTH * TILE_WIDTH, MAP_HEIGHT * TILE_HEIGHT);
 
-        graphics.lineStyle(1);
+        tile_layer.graphics.lineStyle(1);
 
         //Let's draw the grid
         for (x in 0...MAP_WIDTH)
         {
             for (y in 0...MAP_HEIGHT)
             {
-                graphics.beginFill(0x000000, Std.random(10) / 100 + 0.1);
-                graphics.drawRect(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+                tile_layer.graphics.beginFill(0x000000, Std.random(10) / 100 + 0.1);
+                tile_layer.graphics.drawRect(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
             }
         }
 
@@ -85,28 +100,14 @@ class Map extends Sprite
                     if (getTile(pos_x, pos_y) == null)
                     {
                         var t = new Tile(field_type, pos_x, pos_y);
-                        t.draw(this, true);
+                        t.draw(tile_layer, true);
                         setTile(pos_x, pos_y, t);
                     }
                 }
             }
         }
 
-        var posX = 19;
-        var posY = 19;
-        var floorItem = new display.ItemOnFloor(new Item(ItemType.MINING_ENGINE), posX, posY);
-        addChild(floorItem);
-        addFloorItem(posX, posY, floorItem);
-
-        for (i in 0...10)
-        {
-            var item_x = Std.random(Map.MAP_WIDTH);
-            var item_y = Std.random(Map.MAP_HEIGHT);
-
-            var floorItem = new display.ItemOnFloor(new Item(ItemType.WHEAT), item_x, item_y);
-            addChild(floorItem);
-            addFloorItem(item_x, item_y, floorItem);
-        }
+        putFloorItem(19, 19, MINING_ENGINE);
 
         addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
         addEventListener(MouseEvent.MOUSE_DOWN, onStartInteract);
@@ -162,7 +163,7 @@ class Map extends Sprite
         var posX = x;
         var posY = y;
         var floorItem = new display.ItemOnFloor(new Item(t), x, y);
-        addChild(floorItem);
+        flooritem_layer.addChild(floorItem);
         addFloorItem(x, y, floorItem);
     }
 
@@ -209,7 +210,7 @@ class Map extends Sprite
         var item = pickOneFloorItem(x, y);
         if (item != null)
         {
-            removeChild(item);
+            flooritem_layer.removeChild(item);
         }
 
         return item;
@@ -254,8 +255,6 @@ class Map extends Sprite
         tile_hl.x = posX * TILE_WIDTH;
         tile_hl.y = posY * TILE_HEIGHT;
 
-        setChildIndex(tile_hl, numChildren - 1);
-
         drawBuildingGhost(posX, posY);
 
         hoveredBuilding = getBuilding(posX, posY);
@@ -299,7 +298,7 @@ class Map extends Sprite
                 if (currentBuilding.parent == null)
                 {
                     currentBuilding.alpha = 0.5;
-                    addChild(currentBuilding);
+                    building_layer.addChild(currentBuilding);
                 }
 
                 currentBuilding.visible = true;
@@ -336,7 +335,7 @@ class Map extends Sprite
             var floorItem = pickOneFloorItem(posX, posY);
 
             EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, floorItem.getItem()));
-            removeChild(floorItem);
+            flooritem_layer.removeChild(floorItem);
             return;
         }
 
@@ -387,7 +386,7 @@ class Map extends Sprite
         c.addEventListener(CharEvent.CHAR_MOVED, updateCharPos);
 
         updateCharPos();
-        addChild(c);
+        character_layer.addChild(c);
     }
 
     private function updateCharPos(?_)

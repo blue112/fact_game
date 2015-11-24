@@ -8,10 +8,11 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Make the ME put item in front of it, it there's no other item in front of it, otherwise, stop working
 - Change the direction of which it places the item (rotate ME)
 - Belt conveyors
+- Add map layers
 
 #Todo
 
-- Add map layers
+- Add drop shadow to floor items
 - Rotate a building while placing it
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
