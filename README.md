@@ -17,11 +17,11 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Chests
 - Automatic inventory view refresh when model changes
 - Save chest inventory
+- Get item in chest
+- Oven (Iron + Coal => Iron Bars)
 
 # Todo
 
-- Get item in chest
-- Oven (Iron + Coal => Iron Bars)
 - Crafting machines (input components => output result)
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
