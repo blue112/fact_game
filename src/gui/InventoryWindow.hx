@@ -23,6 +23,11 @@ class InventoryWindow extends Window
         super("Inventory", WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
+    public function setInventory(inv:Inventory)
+    {
+        this.inventoryModel = inv;
+    }
+
     override public function update()
     {
         clear();

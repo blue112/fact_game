@@ -1,7 +1,9 @@
+import display.FloatingMessage;
 import display.InfoView;
 import events.CharEvent;
 import events.GameEvent;
 import events.GUIEvent;
+import events.InventoryEvent;
 import events.MapEvent;
 import flash.display.Sprite;
 import flash.events.Event;
@@ -65,16 +67,20 @@ class Main extends Sprite
         {
             hungerbar.update(c.hunger, Character.MAX_HUNGER);
         });
-        EventManager.listen(GUIEvent.OPEN_INVENTORY, function(_)
+        EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {
+            if (e.data == null)
+                e.data = c.inventory;
+
             if (inventoryWindow != null)
             {
                 activeWindow = inventoryWindow;
+                inventoryWindow.setInventory(e.data);
                 inventoryWindow.show();
                 return;
             }
 
-            inventoryWindow = new InventoryWindow(c.inventory);
+            inventoryWindow = new InventoryWindow(e.data);
             inventoryWindow.x = (stage.stageWidth - inventoryWindow.width) / 2;
             inventoryWindow.y = (stage.stageHeight - inventoryWindow.height) / 2;
             activeWindow = inventoryWindow;
@@ -110,6 +116,15 @@ class Main extends Sprite
         EventManager.listen(GUIEvent.CLOSE_ACTIVE_WINDOW, function(_)
         {
             activeWindow.close();
+        });
+        EventManager.listen(InventoryEvent.ADD_ITEM, function(e:InventoryEvent)
+        {
+            character.inventory.addItem(e.data);
+            //new FloatingMessage("+"+item.getQuantity()+" "+item.getName()+" ("+totalQuantity+")");
+        });
+        EventManager.listen(InventoryEvent.REMOVE_ITEM, function(e:InventoryEvent)
+        {
+            character.inventory.removeItem(e.data.type, e.data.quantity);
         });
 
         load();

@@ -12,6 +12,7 @@ import flash.display.Sprite;
 @:bitmap("assets/ironbar.png") class IronBarPNG extends BitmapData {}
 @:bitmap("assets/miningengine.png") class MiningEnginePNG extends BitmapData {}
 @:bitmap("assets/conveyorbelt.png") class ConveyorBeltPNG extends BitmapData {}
+@:bitmap("assets/chest.png") class ChestPNG extends BitmapData {}
 
 enum ItemType
 {
@@ -22,6 +23,7 @@ enum ItemType
     IRON_BAR;
     MINING_ENGINE;
     CONVEYOR_BELT;
+    CHEST;
 }
 
 class Item
@@ -59,6 +61,7 @@ class Item
             case IRON_BAR: new IronBarPNG(0,0);
             case MINING_ENGINE: new MiningEnginePNG(0,0);
             case CONVEYOR_BELT: new ConveyorBeltPNG(0,0);
+            case CHEST: new ChestPNG(0,0);
         };
 
         return asset;
@@ -68,7 +71,7 @@ class Item
     {
         return switch (type)
         {
-            case MINING_ENGINE, CONVEYOR_BELT: true;
+            case MINING_ENGINE, CONVEYOR_BELT, CHEST: true;
             case COAL, IRON, WHEAT, BREAD, IRON_BAR: false;
         }
     }
@@ -134,6 +137,7 @@ class Item
             case IRON_BAR: "Iron Bar";
             case MINING_ENGINE: "Automated Mining Engine";
             case CONVEYOR_BELT: "Conveyor Belt";
+            case CHEST: "Chest";
         };
     }
 

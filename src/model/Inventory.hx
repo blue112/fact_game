@@ -11,15 +11,6 @@ class Inventory
     public function new()
     {
         items = [];
-
-        EventManager.listen(InventoryEvent.ADD_ITEM, function(e:InventoryEvent)
-        {
-            addItem(e.data);
-        });
-        EventManager.listen(InventoryEvent.REMOVE_ITEM, function(e:InventoryEvent)
-        {
-            removeItem(e.data.type, e.data.quantity);
-        });
     }
 
     public function serialize()
@@ -79,7 +70,7 @@ class Inventory
         return items.copy();
     }
 
-    private function addItem(item:Item)
+    public function addItem(item:Item)
     {
         //Display text
 
@@ -98,7 +89,6 @@ class Inventory
             items.push(item);
         }
 
-        new FloatingMessage("+"+item.getQuantity()+" "+item.getName()+" ("+totalQuantity+")");
         //TODO: Handle inventory limit
     }
 }

@@ -1,5 +1,6 @@
 package display;
 
+import display.buildings.Chest;
 import display.buildings.ConveyorBelt;
 import display.buildings.MiningEngine;
 import display.NotWorkingSign;
@@ -8,16 +9,19 @@ import display.Tile.TileType;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
+import model.Item;
 import model.Item.ItemType;
 
 enum BuildingType
 {
     MINING_ENGINE;
     CONVEYOR_BELT;
+    CHEST;
 }
 
 @:bitmap("assets/building_mining_engine.png") class BuildingMiningEnginePNG extends BitmapData {}
 @:bitmap("assets/building_conveyor_belt.png") class BuildingConveyorBeltPNG extends BitmapData {}
+@:bitmap("assets/building_chest.png") class BuildingChestPNG extends BitmapData {}
 
 class Building extends Sprite
 {
@@ -44,6 +48,7 @@ class Building extends Sprite
         {
             case MINING_ENGINE: new BuildingMiningEnginePNG(0, 0);
             case CONVEYOR_BELT: new BuildingConveyorBeltPNG(0, 0);
+            case CHEST: new BuildingChestPNG(0, 0);
         };
 
         buildIcon = new Sprite();
@@ -60,6 +65,56 @@ class Building extends Sprite
         addChild(not_working_sign);
 
         super();
+    }
+
+    private function acceptItem()
+    {
+        return false;
+    }
+
+    private function addItem(item:model.Item)
+    {
+        return false;
+    }
+
+    public function interact()
+    {
+        //Nothing to do
+    }
+
+    /**
+    * Push an item to a tile forward
+    * @arg i Item to push
+    * @returns
+    *   - true: if an item has been pushed
+    *   - false: if an item couldn't be pushed
+    */
+    private function pushItem(i:Item)
+    {
+        //Check if there's something on my tile
+        var c = getFrontCoordinates();
+        if (!map.hasFloorItem(c.x, c.y))
+        {
+            var b = map.getBuilding(c.x, c.y);
+            if (b != null)
+            {
+                if (b.acceptItem())
+                {
+                    if (i != null)
+                    {
+                        b.addItem(i);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            //Move it forward
+            map.putFloorItem(c.x, c.y, i.getType());
+            return true;
+        }
+
+        return false;
     }
 
     private function getFrontCoordinates()
@@ -151,6 +206,7 @@ class Building extends Sprite
         {
             case ItemType.MINING_ENGINE: new MiningEngine();
             case ItemType.CONVEYOR_BELT: new ConveyorBelt();
+            case ItemType.CHEST: new Chest();
             default: throw "Trying to build an unbuildable item type: "+type;
         }
     }
@@ -161,6 +217,7 @@ class Building extends Sprite
         {
             case MINING_ENGINE: ItemType.MINING_ENGINE;
             case CONVEYOR_BELT: ItemType.CONVEYOR_BELT;
+            case CHEST: ItemType.CHEST;
         }
     }
 }

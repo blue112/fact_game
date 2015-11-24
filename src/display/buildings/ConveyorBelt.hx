@@ -1,29 +1,49 @@
 package display.buildings;
 
 import display.Building;
+import model.Item;
 
 class ConveyorBelt extends Building
 {
+    var skipTick:Bool;
+
     public function new()
     {
+        skipTick = false;
+
         super(CONVEYOR_BELT);
     }
 
     override private function work()
     {
-        //Check if there's something on my tile
-        var c = getFrontCoordinates();
-        if (!map.hasFloorItem(c.x, c.y))
+        if (skipTick)
         {
-            var item = map.removeFloorItem(posX, posY);
-            if (item != null)
+            skipTick = false;
+            return true;
+        }
+
+        var i = map.getFloorItem(posX, posY);
+        if (i != null)
+        {
+            if (pushItem(i.getItem()))
             {
-                //Move it forward
-                map.putFloorItem(c.x, c.y, item.getItem().getType());
+                map.removeFloorItem(posX, posY);
             }
         }
 
         return true;
+    }
+
+    override public function addItem(item:Item):Bool
+    {
+        skipTick = true;
+        map.putFloorItem(posX, posY, item.getType());
+        return true;
+    }
+
+    override public function acceptItem()
+    {
+        return !map.hasFloorItem(posX, posY);
     }
 
     override public function isBuildable(tile:Tile)

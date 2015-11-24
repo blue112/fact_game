@@ -25,7 +25,7 @@ class MiningEngine extends Building
         var type = t.automatedInteract();
         if (type != null)
         {
-            map.putFloorItem(itemCoordX, itemCoordY, type);
+            pushItem(new model.Item(type));
         }
 
         return true;

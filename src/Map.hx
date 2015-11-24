@@ -234,28 +234,22 @@ class Map extends Sprite
         }
     }
 
+    public function getFloorItem(x:Int, y:Int):Null<ItemOnFloor>
+    {
+        var key = x+";"+y;
+
+        var a = floorItems.get(key);
+
+        if (a != null)
+        {
+            return a[0];
+        }
+        return null;
+    }
+
     public function hasFloorItem(x:Int, y:Int):Bool
     {
         return floorItems.exists(x+";"+y);
-    }
-
-    public function getAllBuildings()
-    {
-        var a = [];
-        for (i in buildings)
-            a.push(i);
-
-        return a;
-    }
-
-    private function setBuilding(x:Int, y:Int, b:Building)
-    {
-        buildings.set(x+";"+y, b);
-    }
-
-    private function getBuilding(x:Int, y:Int):Null<Building>
-    {
-        return buildings.get(x+";"+y);
     }
 
     public function removeFloorItem(x:Int, y:Int):Null<ItemOnFloor>
@@ -284,6 +278,25 @@ class Map extends Sprite
         }
 
         return null;
+    }
+
+    public function getAllBuildings()
+    {
+        var a = [];
+        for (i in buildings)
+            a.push(i);
+
+        return a;
+    }
+
+    private function setBuilding(x:Int, y:Int, b:Building)
+    {
+        buildings.set(x+";"+y, b);
+    }
+
+    public function getBuilding(x:Int, y:Int):Null<Building>
+    {
+        return buildings.get(x+";"+y);
     }
 
     private function getPosFromMouseEvent(e:MouseEvent)
@@ -389,6 +402,13 @@ class Map extends Sprite
 
             EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, floorItem.getItem()));
             flooritem_layer.removeChild(floorItem);
+            return;
+        }
+
+        var b = getBuilding(posX, posY);
+        if (b != null)
+        {
+            b.interact();
             return;
         }
 

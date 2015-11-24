@@ -1,5 +1,7 @@
 Making a survival craft game about building a factory.
+
 You build robots that do stuff for you, like mining ores, and trying to optimize them so they do more stuff for you.
+
 You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 
 # Done:
@@ -12,9 +14,14 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Add drop shadow to floor items
 - Rotate a building while placing it
 - Map save
+- Chests
 
-#Todo
+# Todo
 
+- Automatic inventory view refresh when model changes
+- Oven (Iron + Coal => Iron Bars)
+- Crafting machines (input components => output result)
+- Save chest inventory
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
 - Add nice graphics (help needed)

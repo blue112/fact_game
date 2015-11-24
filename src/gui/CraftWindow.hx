@@ -47,6 +47,9 @@ class CraftWindow extends Window
             ]},
             {item: ItemType.CONVEYOR_BELT, components: [
                 {type: ItemType.IRON, quantity: 3},
+            ]},
+            {item: ItemType.CHEST, components: [
+                {type: ItemType.IRON, quantity: 1},
             ]}
         ];
 
