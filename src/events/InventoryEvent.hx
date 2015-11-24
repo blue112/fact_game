@@ -7,6 +7,7 @@ class InventoryEvent extends Event
     public var data:Dynamic;
 
     static public inline var ADD_ITEM:String = "inventory_event_add_item";
+    static public inline var REMOVE_ITEM:String = "inventory_event_remove_item";
 
     public function new(type:String, data:Dynamic)
     {
@@ -17,6 +18,6 @@ class InventoryEvent extends Event
 
     override public function clone()
     {
-        return new CharEvent(this.type, this.data);
+        return new InventoryEvent(this.type, this.data);
     }
 }

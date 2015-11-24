@@ -1,7 +1,10 @@
 package gui;
 
+import events.BuildEvent;
+import events.InventoryEvent;
 import flash.display.Shape;
 import flash.display.Sprite;
+import flash.events.MouseEvent;
 import model.Inventory;
 import model.Item;
 
@@ -31,6 +34,8 @@ class InventoryWindow extends Window
         for (i in inventoryModel.getItems())
         {
             var itemSprite = i.render();
+            itemSprite.buttonMode = true;
+            itemSprite.addEventListener(MouseEvent.CLICK, onItemClick.bind(i));
             itemSprite.x = MARGIN + (n % numPerLine) * (itemSprite.width + 5);
             itemSprite.y = MARGIN + Math.floor(n / numPerLine) * (itemSprite.height + 5);
             addChild(itemSprite);
@@ -56,6 +61,14 @@ class InventoryWindow extends Window
 
                 i++;
             }
+        }
+    }
+
+    private function onItemClick(item:Item, _)
+    {
+        if (item.isBuildable())
+        {
+            EventManager.dispatch(new BuildEvent(BuildEvent.START_BUILDING, item));
         }
     }
 

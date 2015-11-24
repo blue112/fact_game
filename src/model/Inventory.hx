@@ -16,6 +16,10 @@ class Inventory
         {
             addItem(e.data);
         });
+        EventManager.listen(InventoryEvent.REMOVE_ITEM, function(e:InventoryEvent)
+        {
+            removeItem(e.data.type, e.data.quantity);
+        });
     }
 
     public function removeItem(type:ItemType, quantity:Int)

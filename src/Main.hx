@@ -8,6 +8,7 @@ import gui.CraftWindow;
 import gui.HungerBar;
 import gui.InventoryWindow;
 import gui.ProgressBar;
+import model.TimeManager;
 
 class Main extends Sprite
 {
@@ -25,6 +26,8 @@ class Main extends Sprite
         flash.Lib.current.addChild(this);
 
         var map = new Map();
+
+        var timeManager = new TimeManager(map);
 
         var c = new Character();
 

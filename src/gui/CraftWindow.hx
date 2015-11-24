@@ -135,7 +135,10 @@ class CraftWindow extends Window
 
     override public function show()
     {
-        onRecipeClick(activeRecipe, null);
+        if (activeRecipe != null)
+        {
+            onRecipeClick(activeRecipe, null);
+        }
 
         super.show();
     }

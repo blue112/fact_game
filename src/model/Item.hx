@@ -10,6 +10,7 @@ import flash.display.Sprite;
 @:bitmap("assets/coal.png") class CoalPNG extends BitmapData {}
 @:bitmap("assets/bread.png") class BreadPNG extends BitmapData {}
 @:bitmap("assets/ironbar.png") class IronBarPNG extends BitmapData {}
+@:bitmap("assets/miningengine.png") class MiningEnginePNG extends BitmapData {}
 
 enum ItemType
 {
@@ -54,10 +55,19 @@ class Item
             case WHEAT: new WheatPNG(0,0);
             case BREAD: new BreadPNG(0,0);
             case IRON_BAR: new IronBarPNG(0,0);
-            case MINING_ENGINE: new IronBarPNG(0,0);
+            case MINING_ENGINE: new MiningEnginePNG(0,0);
         };
 
         return asset;
+    }
+
+    public function isBuildable()
+    {
+        return switch (type)
+        {
+            case MINING_ENGINE: true;
+            case COAL, IRON, WHEAT, BREAD, IRON_BAR: false;
+        }
     }
 
     public function render(?with_number:Bool = true):Sprite

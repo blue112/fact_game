@@ -61,6 +61,19 @@ class Tile
         };
     }
 
+    public function getType():TileType
+    {
+        return type;
+    }
+
+    public function automatedInteract()
+    {
+        for (i in 0...10)
+        {
+            interact();
+        }
+    }
+
     public function interact()
     {
         if (lifepoint > 0)
