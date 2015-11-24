@@ -20,6 +20,7 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 
 # Todo
 
+- Get item in chest
 - Oven (Iron + Coal => Iron Bars)
 - Crafting machines (input components => output result)
 - [BONUS] Make convert belts move item "visibly slowly"

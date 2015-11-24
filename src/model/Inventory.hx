@@ -84,7 +84,7 @@ class Inventory extends EventDispatcher
         {
             if (i.getType() == item.getType())
             {
-                totalQuantity = i.increase();
+                totalQuantity = i.increase(item.getQuantity());
                 dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
             }
         }

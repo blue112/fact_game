@@ -146,9 +146,9 @@ class Item
         return type;
     }
 
-    public function increase()
+    public function increase(n:Int)
     {
-        quantity++;
+        quantity += n;
         return quantity;
     }
 

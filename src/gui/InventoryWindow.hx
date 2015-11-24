@@ -15,20 +15,23 @@ class InventoryWindow extends Window
     static private inline var MARGIN:Int = 30;
 
     var inventoryModel:Inventory;
+    var isPlayer:Bool;
 
-    public function new(inv:Inventory)
+    public function new(inv:Inventory, isPlayer:Bool)
     {
         this.inventoryModel = inv;
+        this.isPlayer = isPlayer;
 
         inv.addEventListener(InventoryEvent.CHANGE, onInventoryChange);
 
         super("Inventory", WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    public function setInventory(inv:Inventory)
+    public function setInventory(inv:Inventory, isPlayer:Bool)
     {
         inv.removeEventListener(InventoryEvent.CHANGE, onInventoryChange);
         this.inventoryModel = inv;
+        this.isPlayer = isPlayer;
         inv.addEventListener(InventoryEvent.CHANGE, onInventoryChange);
     }
 
@@ -80,6 +83,13 @@ class InventoryWindow extends Window
 
     private function onItemClick(item:Item, _)
     {
+        if (!isPlayer)
+        {
+            trace("Adding an item inside player's inv");
+            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(item.getType(), item.getQuantity())));
+            inventoryModel.removeItem(item.getType(), item.getQuantity());
+            return;
+        }
         if (item.isBuildable())
         {
             EventManager.dispatch(new BuildEvent(BuildEvent.START_BUILDING, item));

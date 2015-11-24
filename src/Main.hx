@@ -69,18 +69,22 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {
+            var isPlayer = false;
             if (e.data == null)
+            {
+                isPlayer = true;
                 e.data = c.inventory;
+            }
 
             if (inventoryWindow != null)
             {
                 activeWindow = inventoryWindow;
-                inventoryWindow.setInventory(e.data);
+                inventoryWindow.setInventory(e.data, isPlayer);
                 inventoryWindow.show();
                 return;
             }
 
-            inventoryWindow = new InventoryWindow(e.data);
+            inventoryWindow = new InventoryWindow(e.data, isPlayer);
             inventoryWindow.x = (stage.stageWidth - inventoryWindow.width) / 2;
             inventoryWindow.y = (stage.stageHeight - inventoryWindow.height) / 2;
             activeWindow = inventoryWindow;
