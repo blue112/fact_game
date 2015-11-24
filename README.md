@@ -11,6 +11,7 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Add map layers
 - Add drop shadow to floor items
 - Rotate a building while placing it
+- Map save
 
 #Todo
 

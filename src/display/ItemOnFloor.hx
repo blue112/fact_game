@@ -31,6 +31,11 @@ class ItemOnFloor extends Sprite
         this.y = this.posY * Map.TILE_HEIGHT;
     }
 
+    public function serialize()
+    {
+        return {posX: posX, posY: posY, item:item.getType()};
+    }
+
     public function getItem()
     {
         return item;

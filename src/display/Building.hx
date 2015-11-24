@@ -22,8 +22,8 @@ enum BuildingType
 class Building extends Sprite
 {
     var type:BuildingType;
-    var posX:Int;
-    var posY:Int;
+    public var posX(default, null):Int;
+    public var posY(default, null):Int;
     var map:Map;
     var not_working_sign:Sprite;
 
@@ -78,9 +78,28 @@ class Building extends Sprite
         return {x:itemCoordX, y:itemCoordY};
     }
 
+    public function serialize()
+    {
+        return {posX:posX, posY:posY, rotationState: rotationState, type: toItemType()};
+    }
+
+    static public function load(map:Map, data:Dynamic):Building
+    {
+        var b = fromItem(data.type);
+        b.setRotationState(data.rotationState);
+        b.build(map, data.posX, data.posY);
+
+        return b;
+    }
+
     public function rotate()
     {
-        rotationState = (rotationState + 1) % 4;
+        this.setRotationState((rotationState + 1) % 4);
+    }
+
+    private function setRotationState(rotationState:Int)
+    {
+        this.rotationState = rotationState;
         buildIcon.rotation = rotationState * 90;
     }
 

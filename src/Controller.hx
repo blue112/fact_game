@@ -1,4 +1,5 @@
 import events.BuildEvent;
+import events.GameEvent;
 import events.GUIEvent;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -44,6 +45,10 @@ class Controller
         else if (e.keyCode == Keyboard.ESCAPE) //Close active window
         {
             EventManager.dispatch(new GUIEvent(GUIEvent.CLOSE_ACTIVE_WINDOW));
+        }
+        else if (e.keyCode == Keyboard.S) //Save map
+        {
+            EventManager.dispatch(new GameEvent(GameEvent.SAVE));
         }
 
         keys.set(e.keyCode, false);

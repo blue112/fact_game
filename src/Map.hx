@@ -1,7 +1,9 @@
 import display.Building;
 import display.ItemOnFloor;
 import events.BuildEvent;
+import events.GameEvent;
 import events.InventoryEvent;
+import model.Inventory;
 import model.Item;
 import display.Tile;
 import display.Tile.TileType;
@@ -39,7 +41,7 @@ class Map extends Sprite
     var flooritem_layer:Sprite;
     var character_layer:Sprite;
 
-    public function new()
+    public function new(generate:Bool)
     {
         super();
 
@@ -63,8 +65,6 @@ class Map extends Sprite
         tile_hl = new Sprite();
         addChild(tile_hl);
 
-        var numField = Std.random(7) + 7;
-
         tile_layer.graphics.beginFill(0xEEEEEE);
         tile_layer.graphics.drawRect(0, 0, MAP_WIDTH * TILE_WIDTH, MAP_HEIGHT * TILE_HEIGHT);
 
@@ -80,34 +80,39 @@ class Map extends Sprite
             }
         }
 
-        for (f in 0...numField)
+        if (generate)
         {
-            //Let's add a field
-            var choices = Type.allEnums(TileType);
-            var field_type = choices[Std.random(choices.length)];
-            var field_x = Std.random(Map.MAP_WIDTH);
-            var field_y = Std.random(Map.MAP_HEIGHT);
-            var field_size_x = Std.random(3) + 3;
+            var numField = Std.random(7) + 7;
 
-            for (i in 0...field_size_x)
+            for (f in 0...numField)
             {
-                var field_size_y = Std.random(3) + 3;
-                for (j in 0...field_size_y)
-                {
-                    var pos_x = field_x + i;
-                    var pos_y = Std.int((field_y + j) - field_size_y / 2);
+                //Let's add a field
+                var choices = Type.allEnums(TileType);
+                var field_type = choices[Std.random(choices.length)];
+                var field_x = Std.random(Map.MAP_WIDTH);
+                var field_y = Std.random(Map.MAP_HEIGHT);
+                var field_size_x = Std.random(3) + 3;
 
-                    if (getTile(pos_x, pos_y) == null)
+                for (i in 0...field_size_x)
+                {
+                    var field_size_y = Std.random(3) + 3;
+                    for (j in 0...field_size_y)
                     {
-                        var t = new Tile(field_type, pos_x, pos_y);
-                        t.draw(tile_layer, true);
-                        setTile(pos_x, pos_y, t);
+                        var pos_x = field_x + i;
+                        var pos_y = Std.int((field_y + j) - field_size_y / 2);
+
+                        if (getTile(pos_x, pos_y) == null)
+                        {
+                            var t = new Tile(field_type, pos_x, pos_y);
+                            t.draw(tile_layer, true);
+                            setTile(pos_x, pos_y, t);
+                        }
                     }
                 }
             }
-        }
 
-        putFloorItem(19, 19, MINING_ENGINE);
+            putFloorItem(19, 19, MINING_ENGINE);
+        }
 
         addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
         addEventListener(MouseEvent.MOUSE_DOWN, onStartInteract);
@@ -115,6 +120,52 @@ class Map extends Sprite
 
         EventManager.listen(BuildEvent.START_BUILDING, onStartBuilding);
         EventManager.listen(BuildEvent.ROTATE_BUILDING, onRotateBuildAsked);
+    }
+
+    public function load(data:Dynamic)
+    {
+        //TODO : Reinit map ?
+
+        //Load tiles
+        for (i in (data.tiles:Array<Dynamic>))
+        {
+            var t = Tile.load(i);
+            t.draw(tile_layer, true);
+            setTile(i.pos_x, i.pos_y, t);
+        }
+
+        //Load floor items
+        for (i in (data.floorItems:Array<Dynamic>))
+        {
+            putFloorItem(i.posX, i.posY, i.item);
+        }
+
+        //Load buildings
+        for (i in (data.buildings:Array<Dynamic>))
+        {
+            var b = Building.load(this, i);
+            b.x = b.posX * TILE_WIDTH;
+            b.y = b.posY * TILE_HEIGHT;
+            setBuilding(b.posX, b.posY, b);
+            building_layer.addChild(b);
+        }
+
+        //Load char position
+        character.pos_x = data.charPos.x;
+        character.pos_y = data.charPos.y;
+        updateCharPos();
+    }
+
+    public function save()
+    {
+        var mapSave:Dynamic = {};
+
+        mapSave.tiles = [for (i in tiles) i.serialize()];
+        mapSave.floorItems = [for (i in floorItems) for (t in i) t.serialize()];
+        mapSave.buildings = [for (i in buildings) i.serialize()];
+        mapSave.charPos = {x: character.pos_x, y: character.pos_y};
+
+        return mapSave;
     }
 
     private function onRotateBuildAsked(_)
@@ -164,8 +215,6 @@ class Map extends Sprite
 
     public function putFloorItem(x:Int, y:Int, t:ItemType)
     {
-        var posX = x;
-        var posY = y;
         var floorItem = new display.ItemOnFloor(new Item(t), x, y);
         flooritem_layer.addChild(floorItem);
         addFloorItem(x, y, floorItem);

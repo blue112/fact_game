@@ -22,6 +22,26 @@ class Inventory
         });
     }
 
+    public function serialize()
+    {
+        var inv = [];
+
+        for (i in items)
+        {
+            inv.push({type: i.getType(), quantity: i.getQuantity()});
+        }
+
+        return inv;
+    }
+
+    public function load(data:Dynamic)
+    {
+        for (i in (data:Array<Dynamic>))
+        {
+            items.push(new Item(i.type, i.quantity));
+        }
+    }
+
     public function removeItem(type:ItemType, quantity:Int)
     {
         for (i in items)

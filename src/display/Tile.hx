@@ -36,6 +36,19 @@ class Tile
         this.lifepoint = getMaxLifePoint();
     }
 
+    public function serialize()
+    {
+        return {type: type, pos_x: pos_x, pos_y: pos_y, quantity: quantity, lifepoint:lifepoint};
+    }
+
+    static public function load(data:Dynamic):Tile
+    {
+        var t = new Tile(data.type, data.pos_x, data.pos_y);
+        t.quantity = data.quantity;
+        t.lifepoint = data.lifepoint;
+        return t;
+    }
+
     private function getMaxLifePoint()
     {
         return switch (type)

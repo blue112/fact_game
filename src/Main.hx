@@ -1,9 +1,12 @@
 import display.InfoView;
 import events.CharEvent;
+import events.GameEvent;
 import events.GUIEvent;
 import events.MapEvent;
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
 import gui.CraftWindow;
 import gui.HungerBar;
 import gui.InventoryWindow;
@@ -19,17 +22,22 @@ class Main extends Sprite
     var progressBar:ProgressBar;
     var hungerbar:HungerBar;
 
+    var map:Map;
+    var character:Character;
+
     public function new()
     {
         super();
 
         flash.Lib.current.addChild(this);
 
-        var map = new Map();
+        map = new Map(false);
 
         var timeManager = new TimeManager(map);
 
         var c = new Character();
+
+        this.character = c;
 
         var viewport = new Viewport(stage.stageWidth, stage.stageHeight, map, c);
 
@@ -52,6 +60,7 @@ class Main extends Sprite
 
         stage.addEventListener(Event.RESIZE, onResize);
 
+        EventManager.listen(GameEvent.SAVE, onSave);
         EventManager.listen(CharEvent.HUNGER_CHANGED, function(_)
         {
             hungerbar.update(c.hunger, Character.MAX_HUNGER);
@@ -102,6 +111,42 @@ class Main extends Sprite
         {
             activeWindow.close();
         });
+
+        load();
+    }
+
+    private function onSave(_)
+    {
+        var globalSave:Dynamic = {};
+        globalSave.map = map.save();
+        globalSave.inventory = character.inventory.serialize();
+
+        //Serialize it into a string
+        var s = haxe.Serializer.run(globalSave);
+
+        //Save it on the server
+        var req = new URLRequest("http://127.0.0.1/fact/saveload.php");
+        req.data = "data="+StringTools.urlEncode(s);
+        req.method = "POST";
+        var load = new URLLoader();
+        load.addEventListener(Event.COMPLETE, function(_)
+        {
+            new display.FloatingMessage("Saved !");
+        });
+        load.load(req);
+    }
+
+    private function load()
+    {
+        var req = new URLRequest("http://127.0.0.1/fact/saveload.php");
+        var load = new URLLoader();
+        load.addEventListener(Event.COMPLETE, function(_)
+        {
+            var d = haxe.Unserializer.run(load.data);
+            map.load(d.map);
+            character.inventory.load(d.inventory);
+        });
+        load.load(req);
     }
 
     private function onResize(_)
