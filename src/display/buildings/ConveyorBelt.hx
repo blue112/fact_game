@@ -12,13 +12,13 @@ class ConveyorBelt extends Building
     override private function work()
     {
         //Check if there's something on my tile
-        var item = map.removeFloorItem(posX, posY);
-        if (item != null)
+        var c = getFrontCoordinates();
+        if (!map.hasFloorItem(c.x, c.y))
         {
-            //Move it forward
-            var c = getFrontCoordinates();
-            if (!map.hasFloorItem(c.x, c.y))
+            var item = map.removeFloorItem(posX, posY);
+            if (item != null)
             {
+                //Move it forward
                 map.putFloorItem(c.x, c.y, item.getItem().getType());
             }
         }
