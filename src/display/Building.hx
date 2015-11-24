@@ -1,5 +1,7 @@
 package display;
 
+import display.buildings.ConveyorBelt;
+import display.buildings.MiningEngine;
 import display.NotWorkingSign;
 import display.Tile;
 import display.Tile.TileType;
@@ -11,9 +13,11 @@ import model.Item.ItemType;
 enum BuildingType
 {
     MINING_ENGINE;
+    CONVEYOR_BELT;
 }
 
 @:bitmap("assets/building_mining_engine.png") class BuildingMiningEnginePNG extends BitmapData {}
+@:bitmap("assets/building_conveyor_belt.png") class BuildingConveyorBeltPNG extends BitmapData {}
 
 class Building extends Sprite
 {
@@ -28,7 +32,7 @@ class Building extends Sprite
     var workState:Bool;
     var rotationState:Int; //0: face south, 1: west, 2: north, 3: east
 
-    public function new(type:BuildingType)
+    private function new(type:BuildingType)
     {
         this.type = type;
 
@@ -39,6 +43,7 @@ class Building extends Sprite
         switch (type)
         {
             case MINING_ENGINE: new BuildingMiningEnginePNG(0, 0);
+            case CONVEYOR_BELT: new BuildingConveyorBeltPNG(0, 0);
         };
 
         buildIcon = new Sprite();
@@ -55,6 +60,22 @@ class Building extends Sprite
         addChild(not_working_sign);
 
         super();
+    }
+
+    private function getFrontCoordinates()
+    {
+        var itemCoordX = posX;
+        var itemCoordY = posY;
+
+        switch (rotationState)
+        {
+            case 0: itemCoordY++;
+            case 1: itemCoordX--;
+            case 2: itemCoordY--;
+            case 3: itemCoordX++;
+        }
+
+        return {x:itemCoordX, y:itemCoordY};
     }
 
     public function rotate()
@@ -80,31 +101,7 @@ class Building extends Sprite
 
     private function work():Bool
     {
-        var itemCoordX = posX;
-        var itemCoordY = posY;
-
-        switch (rotationState)
-        {
-            case 0: itemCoordY++;
-            case 1: itemCoordX--;
-            case 2: itemCoordY--;
-            case 3: itemCoordX++;
-        }
-
-        if (map.hasFloorItem(itemCoordX, itemCoordY))
-        {
-            return false;
-        }
-
-        var t = map.getTile(posX, posY);
-
-        var type = t.automatedInteract();
-        if (type != null)
-        {
-            map.putFloorItem(itemCoordX, itemCoordY, type);
-        }
-
-        return true;
+        throw "Should be overwritten";
     }
 
     public function build(map:Map, x:Int, y:Int)
@@ -126,29 +123,17 @@ class Building extends Sprite
 
     public function isBuildable(tile:Tile)
     {
-        switch (this.type)
-        {
-            case MINING_ENGINE:
-                if (tile == null)
-                    return false;
-
-                return switch (tile.getType())
-                {
-                    case IRON, WHEAT, COAL: true;
-                    default: return false;
-                }
-        }
+        return false;
     }
 
     static public function fromItem(type:ItemType)
     {
-        var t:BuildingType = switch (type)
+        return switch (type)
         {
-            case ItemType.MINING_ENGINE: MINING_ENGINE;
+            case ItemType.MINING_ENGINE: new MiningEngine();
+            case ItemType.CONVEYOR_BELT: new ConveyorBelt();
             default: throw "Trying to build an unbuildable item type: "+type;
         }
-
-        return new Building(t);
     }
 
     public function toItemType()
@@ -156,6 +141,7 @@ class Building extends Sprite
         return switch (type)
         {
             case MINING_ENGINE: ItemType.MINING_ENGINE;
+            case CONVEYOR_BELT: ItemType.CONVEYOR_BELT;
         }
     }
 }

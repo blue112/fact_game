@@ -204,6 +204,17 @@ class Map extends Sprite
         return buildings.get(x+";"+y);
     }
 
+    public function removeFloorItem(x:Int, y:Int):Null<ItemOnFloor>
+    {
+        var item = pickOneFloorItem(x, y);
+        if (item != null)
+        {
+            removeChild(item);
+        }
+
+        return item;
+    }
+
     private function pickOneFloorItem(x:Int, y:Int)
     {
         var key = x+";"+y;
@@ -265,7 +276,8 @@ class Map extends Sprite
             if (isReachable(posX, posY))
             {
                 var t = getTile(posX, posY);
-                if (currentBuilding.isBuildable(t))
+
+                if (getBuilding(posX, posY) == null && currentBuilding.isBuildable(t))
                 {
                     return true;
                 }

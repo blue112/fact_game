@@ -44,6 +44,9 @@ class CraftWindow extends Window
             {item: ItemType.MINING_ENGINE, components: [
                 {type: ItemType.IRON, quantity: 2},
                 {type: ItemType.COAL, quantity: 1}
+            ]},
+            {item: ItemType.CONVEYOR_BELT, components: [
+                {type: ItemType.IRON, quantity: 3},
             ]}
         ];
 
