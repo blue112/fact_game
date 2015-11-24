@@ -21,11 +21,19 @@ class Building extends Sprite
     var posX:Int;
     var posY:Int;
     var map:Map;
+    var not_working_sign:Sprite;
 
+    var buildIcon:Sprite;
+
+    var workState:Bool;
+    var rotationState:Int; //0: face south, 1: west, 2: north, 3: east
 
     public function new(type:BuildingType)
     {
         this.type = type;
+
+        workState = true;
+        rotationState = 0;
 
         var bdata =
         switch (type)
@@ -33,18 +41,70 @@ class Building extends Sprite
             case MINING_ENGINE: new BuildingMiningEnginePNG(0, 0);
         };
 
-        addChild(new Bitmap(bdata));
+        buildIcon = new Sprite();
+        var bmp = new Bitmap(bdata);
+        bmp.x = -bmp.width / 2;
+        bmp.y = -bmp.height / 2;
+        buildIcon.x = bmp.width / 2;
+        buildIcon.y = bmp.height / 2;
+        buildIcon.addChild(bmp);
+
+        addChild(buildIcon);
+
+        not_working_sign = new NotWorkingSign();
+        addChild(not_working_sign);
 
         super();
     }
 
-    public function work()
+    public function rotate()
+    {
+        rotationState = (rotationState + 1) % 4;
+        buildIcon.rotation = rotationState * 90;
+    }
+
+    public function tryToWork()
     {
         if (isBuilt())
         {
-            var t = map.getTile(posX, posY);
-            t.automatedInteract();
+            if (!work())
+            {
+                not_working_sign.visible = true;
+            }
+            else
+            {
+                not_working_sign.visible = false;
+            }
         }
+    }
+
+    private function work():Bool
+    {
+        var itemCoordX = posX;
+        var itemCoordY = posY;
+
+        switch (rotationState)
+        {
+            case 0: itemCoordY++;
+            case 1: itemCoordX--;
+            case 2: itemCoordY--;
+            case 3: itemCoordX++;
+        }
+
+        if (map.hasFloorItem(itemCoordX, itemCoordY))
+        {
+            return false;
+        }
+
+        var t = map.getTile(posX, posY);
+
+        var type = t.automatedInteract();
+        if (type != null)
+        {
+            map.putFloorItem(itemCoordX, itemCoordY, type);
+        }
+
+        return true;
     }
 
     public function build(map:Map, x:Int, y:Int)

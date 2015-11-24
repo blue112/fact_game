@@ -66,11 +66,21 @@ class Tile
         return type;
     }
 
-    public function automatedInteract()
+    public function automatedInteract():Null<ItemType>
     {
-        for (i in 0...10)
+        if (lifepoint > 0)
         {
-            interact();
+            lifepoint -= 10;
+
+            return null;
+        }
+        else
+        {
+            lifepoint = getMaxLifePoint();
+            //Get one elem and put it into player's inventory
+            quantity--;
+
+            return Item.tileToItem(this.type);
         }
     }
 

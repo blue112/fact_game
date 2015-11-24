@@ -30,12 +30,15 @@ class Map extends Sprite
 
     var currentTile:Null<Tile>;
     var currentBuilding:Building;
+
     var tile_hl:Sprite;
+    var hoveredBuilding:Null<Building>;
 
     public function new()
     {
         super();
 
+        hoveredBuilding = null;
         character = null;
 
         tiles = new StringMap();
@@ -110,6 +113,15 @@ class Map extends Sprite
         addEventListener(MouseEvent.MOUSE_UP, onStopInteract);
 
         EventManager.listen(BuildEvent.START_BUILDING, onStartBuilding);
+        EventManager.listen(BuildEvent.ROTATE_BUILDING, onRotateBuildAsked);
+    }
+
+    private function onRotateBuildAsked(_)
+    {
+        if (hoveredBuilding != null)
+        {
+            hoveredBuilding.rotate();
+        }
     }
 
     private function onStartBuilding(e:BuildEvent)
@@ -145,6 +157,15 @@ class Map extends Sprite
         tiles.set(x+";"+y, t);
     }
 
+    public function putFloorItem(x:Int, y:Int, t:ItemType)
+    {
+        var posX = x;
+        var posY = y;
+        var floorItem = new display.ItemOnFloor(new Item(t), x, y);
+        addChild(floorItem);
+        addFloorItem(x, y, floorItem);
+    }
+
     private function addFloorItem(x:Int, y:Int, t:ItemOnFloor)
     {
         var key = x+";"+y;
@@ -159,14 +180,18 @@ class Map extends Sprite
         }
     }
 
-    private function hasFloorItem(x:Int, y:Int):Bool
+    public function hasFloorItem(x:Int, y:Int):Bool
     {
         return floorItems.exists(x+";"+y);
     }
 
     public function getAllBuildings()
     {
-        return Lambda.array(buildings);
+        var a = [];
+        for (i in buildings)
+            a.push(i);
+
+        return a;
     }
 
     private function setBuilding(x:Int, y:Int, b:Building)
@@ -221,6 +246,8 @@ class Map extends Sprite
         setChildIndex(tile_hl, numChildren - 1);
 
         drawBuildingGhost(posX, posY);
+
+        hoveredBuilding = getBuilding(posX, posY);
 
         //Calculate distance from char
         var dist = Math.sqrt((character.pos_x - posX) * (character.pos_x - posX) + (character.pos_y - posY) * (character.pos_y - posY));

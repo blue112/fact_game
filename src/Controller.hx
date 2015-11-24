@@ -1,3 +1,4 @@
+import events.BuildEvent;
 import events.GUIEvent;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -32,9 +33,13 @@ class Controller
         {
             EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_INVENTORY));
         }
-        if (e.keyCode == Keyboard.C) //Craft open request
+        else if (e.keyCode == Keyboard.C) //Craft open request
         {
             EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_CRAFT_WINDOW));
+        }
+        else if (e.keyCode == Keyboard.R) //Rotate hovered build
+        {
+            EventManager.dispatch(new BuildEvent(BuildEvent.ROTATE_BUILDING));
         }
         else if (e.keyCode == Keyboard.ESCAPE) //Close active window
         {

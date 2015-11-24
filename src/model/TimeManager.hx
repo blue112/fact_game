@@ -20,7 +20,7 @@ class TimeManager
         //Every 0.1s
         for (i in map.getAllBuildings())
         {
-            i.work();
+            i.tryToWork();
         }
     }
 }
