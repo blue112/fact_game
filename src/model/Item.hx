@@ -13,6 +13,7 @@ import flash.display.Sprite;
 @:bitmap("assets/miningengine.png") class MiningEnginePNG extends BitmapData {}
 @:bitmap("assets/conveyorbelt.png") class ConveyorBeltPNG extends BitmapData {}
 @:bitmap("assets/chest.png") class ChestPNG extends BitmapData {}
+@:bitmap("assets/oven.png") class OvenPNG extends BitmapData {}
 
 enum ItemType
 {
@@ -24,6 +25,7 @@ enum ItemType
     MINING_ENGINE;
     CONVEYOR_BELT;
     CHEST;
+    OVEN;
 }
 
 class Item
@@ -62,6 +64,7 @@ class Item
             case MINING_ENGINE: new MiningEnginePNG(0,0);
             case CONVEYOR_BELT: new ConveyorBeltPNG(0,0);
             case CHEST: new ChestPNG(0,0);
+            case OVEN: new OvenPNG(0,0);
         };
 
         return asset;
@@ -71,7 +74,7 @@ class Item
     {
         return switch (type)
         {
-            case MINING_ENGINE, CONVEYOR_BELT, CHEST: true;
+            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN: true;
             case COAL, IRON, WHEAT, BREAD, IRON_BAR: false;
         }
     }
@@ -138,6 +141,7 @@ class Item
             case MINING_ENGINE: "Automated Mining Engine";
             case CONVEYOR_BELT: "Conveyor Belt";
             case CHEST: "Chest";
+            case OVEN: "Oven";
         };
     }
 
@@ -149,6 +153,22 @@ class Item
     public function increase(n:Int)
     {
         quantity += n;
+        return quantity;
+    }
+
+    public function canSmelt()
+    {
+        if (type == IRON)
+        {
+            return IRON_BAR;
+        }
+
+        return null;
+    }
+
+    public function decrease(?n:Int = 1)
+    {
+        quantity -= n;
         return quantity;
     }
 

@@ -50,6 +50,9 @@ class CraftWindow extends Window
             ]},
             {item: ItemType.CHEST, components: [
                 {type: ItemType.IRON, quantity: 1},
+            ]},
+            {item: ItemType.OVEN, components: [
+                {type: ItemType.IRON, quantity: 2},
             ]}
         ];
 

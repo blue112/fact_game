@@ -3,6 +3,7 @@ package display;
 import display.buildings.Chest;
 import display.buildings.ConveyorBelt;
 import display.buildings.MiningEngine;
+import display.buildings.Oven;
 import display.NotWorkingSign;
 import display.Tile;
 import display.Tile.TileType;
@@ -17,11 +18,13 @@ enum BuildingType
     MINING_ENGINE;
     CONVEYOR_BELT;
     CHEST;
+    OVEN;
 }
 
 @:bitmap("assets/building_mining_engine.png") class BuildingMiningEnginePNG extends BitmapData {}
 @:bitmap("assets/building_conveyor_belt.png") class BuildingConveyorBeltPNG extends BitmapData {}
 @:bitmap("assets/building_chest.png") class BuildingChestPNG extends BitmapData {}
+@:bitmap("assets/building_oven.png") class BuildingOvenPNG extends BitmapData {}
 
 class Building extends Sprite
 {
@@ -49,6 +52,7 @@ class Building extends Sprite
             case MINING_ENGINE: new BuildingMiningEnginePNG(0, 0);
             case CONVEYOR_BELT: new BuildingConveyorBeltPNG(0, 0);
             case CHEST: new BuildingChestPNG(0, 0);
+            case OVEN: new BuildingOvenPNG(0, 0);
         };
 
         buildIcon = new Sprite();
@@ -102,8 +106,7 @@ class Building extends Sprite
                 {
                     if (i != null)
                     {
-                        b.addItem(i);
-                        return true;
+                        return b.addItem(i);
                     }
                 }
                 return false;
@@ -213,6 +216,7 @@ class Building extends Sprite
             case ItemType.MINING_ENGINE: new MiningEngine();
             case ItemType.CONVEYOR_BELT: new ConveyorBelt();
             case ItemType.CHEST: new Chest();
+            case ItemType.OVEN: new Oven();
             default: throw "Trying to build an unbuildable item type: "+type;
         }
     }
@@ -224,6 +228,7 @@ class Building extends Sprite
             case MINING_ENGINE: ItemType.MINING_ENGINE;
             case CONVEYOR_BELT: ItemType.CONVEYOR_BELT;
             case CHEST: ItemType.CHEST;
+            case OVEN: ItemType.OVEN;
         }
     }
 }
