@@ -20,10 +20,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Get item in chest
 - Oven (Iron + Coal => Iron Bars)
 - Add a GUI window to the oven
+- Be able to move windows with drag'n'drop
 
 # Todo
 
-- Be able to move windows with drag'n'drop
 - [BUG] Opening the craft window when the inventory is opened prevents from closing both
 - Crafting machines (input components => output result)
 - Descontruct buildings
