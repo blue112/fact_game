@@ -1,12 +1,14 @@
 package display.buildings;
 
 import display.Building;
+import events.GUIEvent;
+import flash.events.ProgressEvent;
 import model.Item;
 
 class Oven extends Building
 {
-    var fuel_slot:Item;
-    var ore_slot:Item;
+    public var fuel_slot(default, null):Item;
+    public var ore_slot(default, null):Item;
 
     var counter:Int;
     var skipTick:Bool;
@@ -38,7 +40,6 @@ class Oven extends Building
             var type = ore_slot.canSmelt();
             if (type != null)
             {
-                counter++;
                 if (counter >= getSmeltingTime())
                 {
                     if (!pushItem(new Item(type, 1)))
@@ -48,11 +49,19 @@ class Oven extends Building
 
                     counter = 0;
                     fuel_slot.decrease();
+
                     if (fuel_slot.getQuantity() == 0)
                         fuel_slot = null;
                     ore_slot.decrease();
                     if (ore_slot.getQuantity() == 0)
                         ore_slot = null;
+
+                    updated();
+                }
+                else
+                {
+                    counter++;
+                    dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, counter, getSmeltingTime()));
                 }
             }
         }
@@ -60,17 +69,25 @@ class Oven extends Building
         return true;
     }
 
+    override public function interact()
+    {
+        //Opens the chest inventory window
+        EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_OVEN_WINDOW, this));
+    }
+
     override public function addItem(item:Item):Bool
     {
         if (item.getType() == COAL && fuel_slot == null)
         {
             fuel_slot = item;
+            updated();
             return true;
         }
 
         if (item.getType() == IRON && ore_slot == null)
         {
             ore_slot = item;
+            updated();
             return true;
         }
 

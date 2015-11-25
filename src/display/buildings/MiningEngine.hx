@@ -4,6 +4,8 @@ import display.Building;
 
 class MiningEngine extends Building
 {
+    static private var SPEED:Int = 5;
+
     public function new()
     {
         super(MINING_ENGINE);
@@ -22,7 +24,7 @@ class MiningEngine extends Building
 
         var t = map.getTile(posX, posY);
 
-        var type = t.automatedInteract();
+        var type = t.automatedInteract(SPEED);
         if (type != null)
         {
             pushItem(new model.Item(type));

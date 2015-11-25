@@ -67,6 +67,15 @@ class Main extends Sprite
         {
             hungerbar.update(c.hunger, Character.MAX_HUNGER);
         });
+        EventManager.listen(GUIEvent.OPEN_OVEN_WINDOW, function(e:GUIEvent)
+        {
+            var ovenWindow = new gui.OvenWindow(c.inventory, e.data);
+            activeWindow = ovenWindow;
+            activeWindow.show();
+            activeWindow.x = (stage.stageWidth - activeWindow.width) / 2;
+            activeWindow.y = (stage.stageHeight - activeWindow.height) / 2;
+            addChild(activeWindow);
+        });
         EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {
             var isPlayer = false;
@@ -109,7 +118,7 @@ class Main extends Sprite
         {
             if (progressBar == null)
             {
-                progressBar = new gui.ProgressBar();
+                progressBar = new gui.ProgressBar(300);
                 progressBar.x = (stage.stageWidth - progressBar.width) / 2;
                 progressBar.y = (stage.stageHeight - progressBar.height) - 50;
                 addChild(progressBar);

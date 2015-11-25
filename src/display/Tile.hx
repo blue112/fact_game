@@ -79,11 +79,11 @@ class Tile
         return type;
     }
 
-    public function automatedInteract():Null<ItemType>
+    public function automatedInteract(speed:Int):Null<ItemType>
     {
         if (lifepoint > 0)
         {
-            lifepoint -= 10;
+            lifepoint -= speed;
 
             return null;
         }

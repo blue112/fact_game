@@ -7,6 +7,7 @@ import display.buildings.Oven;
 import display.NotWorkingSign;
 import display.Tile;
 import display.Tile.TileType;
+import events.UpdateEvent;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
@@ -69,6 +70,11 @@ class Building extends Sprite
         addChild(not_working_sign);
 
         super();
+    }
+
+    private function updated()
+    {
+        dispatchEvent(new UpdateEvent(UpdateEvent.UPDATE));
     }
 
     private function acceptItem()

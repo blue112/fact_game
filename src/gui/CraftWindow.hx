@@ -42,14 +42,14 @@ class CraftWindow extends Window
                 {type: ItemType.WHEAT, quantity: 5}
             ]},
             {item: ItemType.MINING_ENGINE, components: [
-                {type: ItemType.IRON, quantity: 2},
+                {type: ItemType.IRON_BAR, quantity: 2},
                 {type: ItemType.COAL, quantity: 1}
             ]},
             {item: ItemType.CONVEYOR_BELT, components: [
-                {type: ItemType.IRON, quantity: 3},
+                {type: ItemType.IRON_BAR, quantity: 3},
             ]},
             {item: ItemType.CHEST, components: [
-                {type: ItemType.IRON, quantity: 1},
+                {type: ItemType.IRON_BAR, quantity: 1},
             ]},
             {item: ItemType.OVEN, components: [
                 {type: ItemType.IRON, quantity: 2},

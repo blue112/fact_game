@@ -7,20 +7,23 @@ import model.Item;
 
 class ProgressBar extends Sprite
 {
-    static private inline var TOTAL_WIDTH:Int = 300;
-    static private inline var BAR_HEIGHT:Int = 15;
+    private var totalWidth:Int;
+    private var totalHeight:Int;
 
     var bar:Shape;
 
-    public function new()
+    public function new(w:Int, ?h:Int = 15)
     {
         super();
+
+        this.totalWidth = w;
+        this.totalHeight = h;
 
         var background = new Shape();
 
         background.graphics.lineStyle(2, 0x000000);
         background.graphics.beginFill(0x003C0C);
-        background.graphics.drawRect(0, 0, TOTAL_WIDTH, BAR_HEIGHT);
+        background.graphics.drawRect(0, 0, totalWidth, totalHeight);
 
         bar = new Shape();
 
@@ -32,7 +35,7 @@ class ProgressBar extends Sprite
     {
         bar.graphics.clear();
         bar.graphics.beginFill(0x00A020);
-        bar.graphics.drawRect(0, 0, TOTAL_WIDTH * (1 - (current / max)), BAR_HEIGHT);
+        bar.graphics.drawRect(0, 0, totalWidth * (current / max), totalHeight);
     }
 
 }
