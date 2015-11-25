@@ -24,10 +24,11 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - [BUG] Opening the craft window when the inventory is opened prevents from closing both
 - Deconstruct buildings
 - Add back the floating message when the player's inventory changes
+- Rotative item mover (RIM)
 
 # Todo
 
-- Robotic arm
+- Add stone ressource to make oven
 - Crafting machines (input components => output result)
 - Handle deconstructing building doesn't preserve inventories and slots
 - [BONUS] Make convert belts move item "visibly slowly"

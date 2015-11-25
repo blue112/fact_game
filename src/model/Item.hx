@@ -14,6 +14,7 @@ import flash.display.Sprite;
 @:bitmap("assets/conveyorbelt.png") class ConveyorBeltPNG extends BitmapData {}
 @:bitmap("assets/chest.png") class ChestPNG extends BitmapData {}
 @:bitmap("assets/oven.png") class OvenPNG extends BitmapData {}
+@:bitmap("assets/rim.png") class RimPNG extends BitmapData {}
 
 enum ItemType
 {
@@ -26,6 +27,7 @@ enum ItemType
     CONVEYOR_BELT;
     CHEST;
     OVEN;
+    RIM;
 }
 
 class Item
@@ -65,6 +67,7 @@ class Item
             case CONVEYOR_BELT: new ConveyorBeltPNG(0,0);
             case CHEST: new ChestPNG(0,0);
             case OVEN: new OvenPNG(0,0);
+            case RIM: new RimPNG(0,0);
         };
 
         return asset;
@@ -74,7 +77,7 @@ class Item
     {
         return switch (type)
         {
-            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN: true;
+            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM: true;
             case COAL, IRON, WHEAT, BREAD, IRON_BAR: false;
         }
     }
@@ -142,6 +145,7 @@ class Item
             case CONVEYOR_BELT: "Conveyor Belt";
             case CHEST: "Chest";
             case OVEN: "Oven";
+            case RIM: "Rotative Item Mover";
         };
     }
 

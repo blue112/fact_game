@@ -53,6 +53,9 @@ class CraftWindow extends Window
             ]},
             {item: ItemType.OVEN, components: [
                 {type: ItemType.IRON, quantity: 2},
+            ]},
+            {item: ItemType.RIM, components: [
+                {type: ItemType.IRON_BAR, quantity: 5},
             ]}
         ];
 
@@ -75,10 +78,11 @@ class CraftWindow extends Window
         for (i in recipes)
         {
             var icon = new Item(i.item).render(false);
-            icon.y = 5 + recipeLabel.height + recipeLabel.y + n * (icon.height + 5);
+            icon.scaleX = icon.scaleY = 0.5;
+            icon.x = MARGIN + (n % 2) * (icon.width + 5);
+            icon.y = 5 + recipeLabel.height + recipeLabel.y + Math.floor(n / 2) * (icon.height + 5);
             icon.buttonMode = true;
             icon.addEventListener(MouseEvent.CLICK, onRecipeClick.bind(i));
-            icon.x = MARGIN;
             addChild(icon);
 
             n++;

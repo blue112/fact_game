@@ -4,6 +4,7 @@ import display.buildings.Chest;
 import display.buildings.ConveyorBelt;
 import display.buildings.MiningEngine;
 import display.buildings.Oven;
+import display.buildings.Rim;
 import display.NotWorkingSign;
 import display.Tile;
 import display.Tile.TileType;
@@ -21,12 +22,14 @@ enum BuildingType
     CONVEYOR_BELT;
     CHEST;
     OVEN;
+    RIM;
 }
 
 @:bitmap("assets/building_mining_engine.png") class BuildingMiningEnginePNG extends BitmapData {}
 @:bitmap("assets/building_conveyor_belt.png") class BuildingConveyorBeltPNG extends BitmapData {}
 @:bitmap("assets/building_chest.png") class BuildingChestPNG extends BitmapData {}
 @:bitmap("assets/building_oven.png") class BuildingOvenPNG extends BitmapData {}
+@:bitmap("assets/building_rim.png") class BuildingRimPNG extends BitmapData {}
 
 class Building extends Sprite
 {
@@ -59,10 +62,12 @@ class Building extends Sprite
             case CONVEYOR_BELT: new BuildingConveyorBeltPNG(0, 0);
             case CHEST: new BuildingChestPNG(0, 0);
             case OVEN: new BuildingOvenPNG(0, 0);
+            case RIM: new BuildingRimPNG(0, 0);
         };
 
         buildIcon = new Sprite();
         var bmp = new Bitmap(bdata);
+        bmp.smoothing = true;
         bmp.x = -bmp.width / 2;
         bmp.y = -bmp.height / 2;
         buildIcon.x = bmp.width / 2;
@@ -127,10 +132,12 @@ class Building extends Sprite
     *   - true: if an item has been pushed
     *   - false: if an item couldn't be pushed
     */
-    private function pushItem(i:Item)
+    private function pushItem(i:Item, ?c:{x:Int, y:Int})
     {
         //Check if there's something on my tile
-        var c = getFrontCoordinates();
+        if (c == null)
+            c = getFrontCoordinates();
+
         if (!map.hasFloorItem(c.x, c.y))
         {
             var b = map.getBuilding(c.x, c.y);
@@ -165,6 +172,22 @@ class Building extends Sprite
             case 1: itemCoordX--;
             case 2: itemCoordY--;
             case 3: itemCoordX++;
+        }
+
+        return {x:itemCoordX, y:itemCoordY};
+    }
+
+    private function getBackCoordinates()
+    {
+        var itemCoordX = posX;
+        var itemCoordY = posY;
+
+        switch (rotationState)
+        {
+            case 0: itemCoordY--;
+            case 1: itemCoordX++;
+            case 2: itemCoordY++;
+            case 3: itemCoordX--;
         }
 
         return {x:itemCoordX, y:itemCoordY};
@@ -251,6 +274,7 @@ class Building extends Sprite
             case ItemType.CONVEYOR_BELT: new ConveyorBelt();
             case ItemType.CHEST: new Chest();
             case ItemType.OVEN: new Oven();
+            case ItemType.RIM: new Rim();
             default: throw "Trying to build an unbuildable item type: "+type;
         }
     }
@@ -263,6 +287,7 @@ class Building extends Sprite
             case CONVEYOR_BELT: ItemType.CONVEYOR_BELT;
             case CHEST: ItemType.CHEST;
             case OVEN: ItemType.OVEN;
+            case RIM: ItemType.RIM;
         }
     }
 }
