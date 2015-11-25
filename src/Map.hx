@@ -32,6 +32,7 @@ class Map extends Sprite
 
     var currentTile:Null<Tile>;
     var currentBuilding:Building;
+    var currentBuildingNumber:Int;
 
     var tile_hl:Sprite;
     var hoveredBuilding:Null<Building>;
@@ -189,8 +190,9 @@ class Map extends Sprite
     {
         var item:Item = e.data;
 
-        var b = display.Building.fromItem(item.getType());
+        var b = Building.fromItem(item.getType());
 
+        currentBuildingNumber = item.getQuantity();
         currentBuilding = b;
     }
 
@@ -403,7 +405,18 @@ class Map extends Sprite
             setBuilding(posX, posY, currentBuilding);
             currentBuilding.build(this, posX, posY);
             EventManager.dispatch(new InventoryEvent(InventoryEvent.REMOVE_ITEM, {type:currentBuilding.toItemType(), quantity:1}));
-            currentBuilding = null;
+
+            currentBuildingNumber--;
+            if (currentBuildingNumber == 0)
+            {
+                currentBuilding = null;
+            }
+            else
+            {
+                var oldBuildingRotationState = currentBuilding.getRotationState();
+                currentBuilding = Building.fromItem(currentBuilding.toItemType());
+                currentBuilding.setRotationState(oldBuildingRotationState);
+            }
             return;
         }
 

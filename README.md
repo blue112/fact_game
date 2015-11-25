@@ -25,6 +25,7 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Deconstruct buildings
 - Add back the floating message when the player's inventory changes
 - Rotative item mover (RIM)
+- Allow player to build multiple items at once
 
 # Todo
 

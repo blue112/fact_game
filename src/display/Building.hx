@@ -218,10 +218,15 @@ class Building extends Sprite
         this.setRotationState((rotationState + 1) % 4);
     }
 
-    private function setRotationState(rotationState:Int)
+    public function setRotationState(rotationState:Int)
     {
         this.rotationState = rotationState;
         buildIcon.rotation = rotationState * 90;
+    }
+
+    public function getRotationState()
+    {
+        return this.rotationState;
     }
 
     public function tryToWork()
