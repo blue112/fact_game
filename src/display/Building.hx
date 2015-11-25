@@ -7,6 +7,7 @@ import display.buildings.Oven;
 import display.NotWorkingSign;
 import display.Tile;
 import display.Tile.TileType;
+import events.MapEvent;
 import events.UpdateEvent;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -35,7 +36,10 @@ class Building extends Sprite
     var map:Map;
     var not_working_sign:Sprite;
 
+    static private inline var MAX_LIFEPOINT = 50;
+
     var buildIcon:Sprite;
+    var lifepoint:Int;
 
     var workState:Bool;
     var rotationState:Int; //0: face south, 1: west, 2: north, 3: east
@@ -46,6 +50,7 @@ class Building extends Sprite
 
         workState = true;
         rotationState = 0;
+        lifepoint = MAX_LIFEPOINT;
 
         var bdata =
         switch (type)
@@ -75,6 +80,29 @@ class Building extends Sprite
     private function updated()
     {
         dispatchEvent(new UpdateEvent(UpdateEvent.UPDATE));
+    }
+
+    public function deconstruct()
+    {
+        lifepoint--;
+        EventManager.dispatch(new MapEvent(MapEvent.DECONSTRUCTING_PROGRESS, {lifepoint: lifepoint, max:MAX_LIFEPOINT}));
+        if (lifepoint == 0)
+        {
+            onDeconstructed();
+            return true;
+        }
+
+        return false;
+    }
+
+    private function onDeconstructed()
+    {
+        //Handle inventory or slots
+    }
+
+    public function resetLP()
+    {
+        lifepoint = MAX_LIFEPOINT;
     }
 
     private function acceptItem()

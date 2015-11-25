@@ -132,6 +132,18 @@ class Main extends Sprite
 
             progressBar.update(e.data.lifepoint, e.data.max);
         });
+        EventManager.listen(MapEvent.DECONSTRUCTING_PROGRESS, function(e:MapEvent)
+        {
+            if (progressBar == null)
+            {
+                progressBar = new gui.ProgressBar(300);
+                progressBar.x = (stage.stageWidth - progressBar.width) / 2;
+                progressBar.y = (stage.stageHeight - progressBar.height) - 50;
+                addChild(progressBar);
+            }
+
+            progressBar.update(e.data.lifepoint, e.data.max);
+        });
         EventManager.listen(GUIEvent.CLOSE_ACTIVE_WINDOW, function(_)
         {
             closeActiveWindow();

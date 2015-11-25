@@ -22,11 +22,14 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Add a GUI window to the oven
 - Be able to move windows with drag'n'drop
 - [BUG] Opening the craft window when the inventory is opened prevents from closing both
+- Deconstruct buildings
 
 # Todo
 
+- Add back the floating message when the player's inventory changes
+- Robotic arm
 - Crafting machines (input components => output result)
-- Descontruct buildings
+- Handle deconstructing building doesn't preserve inventories and slots
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
 - Add nice graphics (help needed)

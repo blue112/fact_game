@@ -36,6 +36,8 @@ class Map extends Sprite
     var tile_hl:Sprite;
     var hoveredBuilding:Null<Building>;
 
+    var deconstructingBuilding:Building;
+
     var tile_layer:Sprite;
     var building_layer:Sprite;
     var flooritem_layer:Sprite;
@@ -117,6 +119,9 @@ class Map extends Sprite
         addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
         addEventListener(MouseEvent.MOUSE_DOWN, onStartInteract);
         addEventListener(MouseEvent.MOUSE_UP, onStopInteract);
+
+        addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightDown);
+        addEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightUp);
 
         EventManager.listen(BuildEvent.START_BUILDING, onStartBuilding);
         EventManager.listen(BuildEvent.ROTATE_BUILDING, onRotateBuildAsked);
@@ -294,6 +299,13 @@ class Map extends Sprite
         buildings.set(x+";"+y, b);
     }
 
+    private function removeBuilding(b:Building)
+    {
+        var key = b.posX+";"+b.posY;
+        building_layer.removeChild(buildings.get(key));
+        buildings.remove(key);
+    }
+
     public function getBuilding(x:Int, y:Int):Null<Building>
     {
         return buildings.get(x+";"+y);
@@ -418,6 +430,41 @@ class Map extends Sprite
         {
             currentTile = t;
             addEventListener(Event.ENTER_FRAME, onInteracting);
+        }
+    }
+
+    private function onRightDown(e:MouseEvent)
+    {
+        var pos = getPosFromMouseEvent(e);
+        var b = getBuilding(pos.x, pos.y);
+
+        if (b != null)
+        {
+            deconstructingBuilding = b;
+            addEventListener(Event.ENTER_FRAME, onDeconstructing);
+        }
+    }
+
+    private function onDeconstructing(_)
+    {
+        if (deconstructingBuilding.deconstruct())
+        {
+            //TODO : Buildings with inventory or slots (oven, chests...)
+            removeBuilding(deconstructingBuilding);
+            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(deconstructingBuilding.toItemType())));
+
+            deconstructingBuilding = null;
+            removeEventListener(Event.ENTER_FRAME, onDeconstructing);
+        }
+    }
+
+    private function onRightUp(e:MouseEvent)
+    {
+        removeEventListener(Event.ENTER_FRAME, onDeconstructing);
+        if (deconstructingBuilding != null)
+        {
+            deconstructingBuilding.resetLP();
+            deconstructingBuilding = null;
         }
     }
 
