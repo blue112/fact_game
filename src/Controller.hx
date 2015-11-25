@@ -63,19 +63,31 @@ class Controller
     {
         if (isKeyDown(Keyboard.LEFT))
         {
+            char.set_direction(Character.DIRECTION_LEFT);
+            char.set_walking(true);
             char.pos_x--;
         }
         else if (isKeyDown(Keyboard.RIGHT))
         {
+            char.set_direction(Character.DIRECTION_RIGHT);
+            char.set_walking(true);
             char.pos_x++;
         }
-        if (isKeyDown(Keyboard.UP))
+        else if (isKeyDown(Keyboard.UP))
         {
+            char.set_direction(Character.DIRECTION_UP);
+            char.set_walking(true);
             char.pos_y--;
         }
         else if (isKeyDown(Keyboard.DOWN))
         {
+            char.set_direction(Character.DIRECTION_DOWN);
+            char.set_walking(true);
             char.pos_y++;
+        }
+        else
+        {
+            char.set_walking(false);
         }
     }
 }

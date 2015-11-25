@@ -1,5 +1,7 @@
+import display.SpriteDisplay;
 import events.CharEvent;
 import flash.display.Sprite;
+import flash.events.Event;
 import haxe.Timer;
 import model.Inventory;
 
@@ -12,6 +14,15 @@ class Character extends Sprite
     public var inventory:Inventory;
     public var hunger:Int;
 
+    public var charSprite:SpriteDisplay;
+    private var direction:Int;
+    private var animation_state:Int;
+
+    static public inline var DIRECTION_UP:Int = 0;
+    static public inline var DIRECTION_RIGHT:Int = 1;
+    static public inline var DIRECTION_DOWN:Int = 2;
+    static public inline var DIRECTION_LEFT:Int = 3;
+
     static public inline var MAX_HUNGER:Int = 100;
 
     public function new()
@@ -20,6 +31,8 @@ class Character extends Sprite
 
         this.x = 0;
         this.y = 0;
+
+        direction = DIRECTION_DOWN;
 
         hunger = MAX_HUNGER;
 
@@ -39,9 +52,40 @@ class Character extends Sprite
         this.pos_x = 20;
         this.pos_y = 20;
 
-        this.addChild(new flash.display.Bitmap(new CharPNG(0,0)));
+        charSprite = new display.SpriteDisplay(new CharPNG(0,0), 4, 4);
+        charSprite.set(1, 2);
+        this.addChild(charSprite);
         //this.graphics.beginFill(0x005F72);
         //this.graphics.drawRect(0, 0, 30, 50);
+    }
+
+    public function set_direction(direction:Int)
+    {
+        if (this.direction != direction)
+        {
+            this.direction = direction;
+            animation_state = 0;
+            charSprite.set(1, direction);
+        }
+    }
+
+    public function set_walking(walking:Bool)
+    {
+        if (walking)
+        {
+            addEventListener(Event.ENTER_FRAME, animate);
+        }
+        else
+        {
+            charSprite.set(1, direction);
+            removeEventListener(Event.ENTER_FRAME, animate);
+        }
+    }
+
+    private function animate(_)
+    {
+        animation_state = (animation_state + 1) % 4;
+        charSprite.set(animation_state, direction);
     }
 
     private function set_pos_x(v:Int):Int

@@ -6,7 +6,7 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 
 # Done:
 
-- Make some mining engine (1 tile x 1 tile)
+- Make some mining engine (ME) (1 tile x 1 tile)
 - Make the ME put item in front of it, it there's no other item in front of it, otherwise, stop working
 - Change the direction of which it places the item (rotate ME)
 - Belt conveyors
@@ -26,10 +26,12 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Add back the floating message when the player's inventory changes
 - Rotative item mover (RIM)
 - Allow player to build multiple items at once
+- Integrate a nicer character
 
 # Todo
 
 - Add stone ressource to make oven
+- Make Mining Engines work using Coal
 - Crafting machines (input components => output result)
 - Handle deconstructing building doesn't preserve inventories and slots
 - [BONUS] Make convert belts move item "visibly slowly"
