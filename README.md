@@ -23,10 +23,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Be able to move windows with drag'n'drop
 - [BUG] Opening the craft window when the inventory is opened prevents from closing both
 - Deconstruct buildings
+- Add back the floating message when the player's inventory changes
 
 # Todo
 
-- Add back the floating message when the player's inventory changes
 - Robotic arm
 - Crafting machines (input components => output result)
 - Handle deconstructing building doesn't preserve inventories and slots

@@ -96,6 +96,7 @@ class Inventory extends EventDispatcher
             dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
         }
 
+        return {item:item, totalQuantity: totalQuantity};
         //TODO: Handle inventory limit
     }
 }

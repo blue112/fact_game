@@ -150,8 +150,8 @@ class Main extends Sprite
         });
         EventManager.listen(InventoryEvent.ADD_ITEM, function(e:InventoryEvent)
         {
-            character.inventory.addItem(e.data);
-            //new FloatingMessage("+"+item.getQuantity()+" "+item.getName()+" ("+totalQuantity+")");
+            var data = character.inventory.addItem(e.data);
+            new FloatingMessage("+"+data.item.getQuantity()+" "+data.item.getName()+" ("+data.totalQuantity+")");
         });
         EventManager.listen(InventoryEvent.REMOVE_ITEM, function(e:InventoryEvent)
         {
