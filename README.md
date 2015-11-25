@@ -27,10 +27,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Rotative item mover (RIM)
 - Allow player to build multiple items at once
 - Integrate a nicer character
+- Add stone ressource to make oven
 
 # Todo
 
-- Add stone ressource to make oven
 - Make Mining Engines work using Coal
 - Crafting machines (input components => output result)
 - Handle deconstructing building doesn't preserve inventories and slots

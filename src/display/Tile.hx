@@ -10,12 +10,14 @@ import model.Item;
 @:bitmap("assets/tile_iron.png") class TileIronPNG extends BitmapData {}
 @:bitmap("assets/tile_coal.png") class TileCoalPNG extends BitmapData {}
 @:bitmap("assets/tile_wheat.png") class TileWheatPNG extends BitmapData {}
+@:bitmap("assets/tile_stone.png") class TileStonePNG extends BitmapData {}
 
 enum TileType
 {
     COAL;
     IRON;
     WHEAT;
+    STONE;
 }
 
 class Tile
@@ -56,6 +58,7 @@ class Tile
             case COAL: 100;
             case IRON: 200;
             case WHEAT: 30;
+            case STONE: 75;
         }
     }
 
@@ -71,6 +74,7 @@ class Tile
             case COAL: "Coal";
             case IRON: "Iron";
             case WHEAT: "Wheat";
+            case STONE: "Stone";
         };
     }
 
@@ -120,6 +124,7 @@ class Tile
             case COAL: new TileCoalPNG(0,0);
             case IRON: new TileIronPNG(0,0);
             case WHEAT: new TileWheatPNG(0,0);
+            case STONE: new TileStonePNG(0,0);
         };
 
         on.graphics.lineStyle(1, 0);

@@ -27,13 +27,15 @@ class Main extends Sprite
     var map:Map;
     var character:Character;
 
+    static private inline var LOAD_SAVE:Bool = false;
+
     public function new()
     {
         super();
 
         flash.Lib.current.addChild(this);
 
-        map = new Map(false);
+        map = new Map(!LOAD_SAVE);
 
         var timeManager = new TimeManager(map);
 
@@ -158,7 +160,10 @@ class Main extends Sprite
             character.inventory.removeItem(e.data.type, e.data.quantity);
         });
 
-        load();
+        if (LOAD_SAVE)
+        {
+            load();
+        }
     }
 
     private function closeActiveWindow()

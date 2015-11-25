@@ -15,6 +15,7 @@ import flash.display.Sprite;
 @:bitmap("assets/chest.png") class ChestPNG extends BitmapData {}
 @:bitmap("assets/oven.png") class OvenPNG extends BitmapData {}
 @:bitmap("assets/rim.png") class RimPNG extends BitmapData {}
+@:bitmap("assets/stone.png") class StonePNG extends BitmapData {}
 
 enum ItemType
 {
@@ -22,6 +23,7 @@ enum ItemType
     IRON;
     WHEAT;
     BREAD;
+    STONE;
     IRON_BAR;
     MINING_ENGINE;
     CONVEYOR_BELT;
@@ -62,6 +64,7 @@ class Item
             case IRON: new IronOrePNG(0,0);
             case WHEAT: new WheatPNG(0,0);
             case BREAD: new BreadPNG(0,0);
+            case STONE: new StonePNG(0,0);
             case IRON_BAR: new IronBarPNG(0,0);
             case MINING_ENGINE: new MiningEnginePNG(0,0);
             case CONVEYOR_BELT: new ConveyorBeltPNG(0,0);
@@ -78,7 +81,7 @@ class Item
         return switch (type)
         {
             case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM: true;
-            case COAL, IRON, WHEAT, BREAD, IRON_BAR: false;
+            case COAL, IRON, WHEAT, BREAD, IRON_BAR, STONE: false;
         }
     }
 
@@ -129,6 +132,7 @@ class Item
             case COAL: ItemType.COAL;
             case WHEAT: ItemType.WHEAT;
             case IRON: ItemType.IRON;
+            case STONE: ItemType.STONE;
         }
     }
 
@@ -138,6 +142,7 @@ class Item
         {
             case COAL: "Coal";
             case IRON: "Iron Ore";
+            case STONE: "Stone";
             case WHEAT: "Wheat";
             case BREAD: "Bread";
             case IRON_BAR: "Iron Bar";

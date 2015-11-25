@@ -52,7 +52,7 @@ class CraftWindow extends Window
                 {type: ItemType.IRON_BAR, quantity: 1},
             ]},
             {item: ItemType.OVEN, components: [
-                {type: ItemType.IRON, quantity: 2},
+                {type: ItemType.STONE, quantity: 4},
             ]},
             {item: ItemType.RIM, components: [
                 {type: ItemType.IRON_BAR, quantity: 5},
