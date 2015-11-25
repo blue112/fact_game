@@ -14,6 +14,7 @@ import gui.HungerBar;
 import gui.InventoryWindow;
 import gui.ProgressBar;
 import model.TimeManager;
+import gui.InventoryArea.InventoryType;
 
 class Main extends Sprite
 {
@@ -27,7 +28,7 @@ class Main extends Sprite
     var map:Map;
     var character:Character;
 
-    static private inline var LOAD_SAVE:Bool = false;
+    static private inline var LOAD_SAVE:Bool = true;
 
     public function new()
     {
@@ -94,12 +95,12 @@ class Main extends Sprite
             if (inventoryWindow != null)
             {
                 activeWindow = inventoryWindow;
-                inventoryWindow.setInventory(e.data, isPlayer);
+                inventoryWindow.setInventory(e.data, isPlayer ? InventoryType.PLAYER : InventoryType.CHEST);
                 inventoryWindow.show();
                 return;
             }
 
-            inventoryWindow = new InventoryWindow(e.data, isPlayer);
+            inventoryWindow = new InventoryWindow(e.data, isPlayer ? InventoryType.PLAYER : InventoryType.CHEST);
             inventoryWindow.x = (stage.stageWidth - inventoryWindow.width) / 2;
             inventoryWindow.y = (stage.stageHeight - inventoryWindow.height) / 2;
             activeWindow = inventoryWindow;

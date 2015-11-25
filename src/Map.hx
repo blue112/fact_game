@@ -196,20 +196,6 @@ class Map extends Sprite
         currentBuilding = b;
     }
 
-    /*private function renderTo(obj:Graphics, zone:Rectangle)
-    {
-        obj.beginFill(BACKGROUND_COLOR);
-        obj.drawRect(0, 0, zone.width, zone.height);
-
-        for (x in 0...Std.int(zone.width))
-        {
-            for (y in 0...Std.int(zone.height))
-            {
-                obj;
-            }
-        }
-    }*/
-
     public function getTile(x:Int, y:Int)
     {
         return tiles.get(x+";"+y);

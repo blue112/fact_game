@@ -25,13 +25,19 @@ class OvenWindow extends Window
     static private inline var OVEN_AREA_SIZE:Int = 150;
 
     var area:InventoryArea;
+    var oven:Oven;
+    var inv:Inventory;
+
+    var ore_slot:ItemSlot;
+    var fuel_slot:ItemSlot;
 
     public function new(inv:Inventory, oven:Oven)
     {
-        area = new InventoryArea(WINDOW_WIDTH - OVEN_AREA_SIZE, WINDOW_HEIGHT, inv, true);
+        area = new InventoryArea(WINDOW_WIDTH - OVEN_AREA_SIZE, WINDOW_HEIGHT, inv, InventoryType.CUSTOM(onItemClick));
         addChild(area);
 
-        super("Oven", WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.oven = oven;
+        this.inv = inv;
 
         var ovenArea = new Sprite();
         ovenArea.x = WINDOW_WIDTH - OVEN_AREA_SIZE;
@@ -43,8 +49,8 @@ class OvenWindow extends Window
         var flame = new Bitmap(new FlamePNG(0, 0));
         flame.x = (OVEN_AREA_SIZE - flame.width) / 2;
 
-        var ore_slot = new ItemSlot(oven.ore_slot);
-        var fuel_slot = new ItemSlot(oven.fuel_slot);
+        ore_slot = new ItemSlot(oven.ore_slot);
+        fuel_slot = new ItemSlot(oven.fuel_slot);
 
         for (i in [ore_slot, fuel_slot])
         {
@@ -63,8 +69,7 @@ class OvenWindow extends Window
         });
         oven.addEventListener(UpdateEvent.UPDATE, function(e:UpdateEvent)
         {
-            ore_slot.update(oven.ore_slot);
-            fuel_slot.update(oven.fuel_slot);
+            update();
         });
 
         ovenArea.addChild(flame);
@@ -72,10 +77,30 @@ class OvenWindow extends Window
         ore_slot.y = ovenProgressBar.y + ovenProgressBar.height + 10;
         flame.y = ore_slot.y + ore_slot.height - 5;
         fuel_slot.y = flame.y + flame.height;
+
+        super("Oven", WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+
+    private function onItemClick(item:Item)
+    {
+        if (item.getType() == COAL && oven.fuel_slot == null)
+        {
+            oven.fuel_slot = new Item(item.getType(), 1);
+            inv.removeItem(item.getType(), 1);
+            update();
+        }
+        if (item.canSmelt() != null && oven.ore_slot == null)
+        {
+            oven.ore_slot = new Item(item.getType(), 1);
+            inv.removeItem(item.getType(), 1);
+            update();
+        }
     }
 
     override public function update()
     {
+        ore_slot.update(oven.ore_slot);
+        fuel_slot.update(oven.fuel_slot);
         area.update();
     }
 }

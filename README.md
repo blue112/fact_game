@@ -28,6 +28,7 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Allow player to build multiple items at once
 - Integrate a nicer character
 - Add stone ressource to make oven
+- Smelt stone to make bricks
 
 # Todo
 

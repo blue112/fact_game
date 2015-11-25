@@ -17,17 +17,17 @@ class InventoryWindow extends Window
 
     var area:InventoryArea;
 
-    public function new(inv:Inventory, isPlayer:Bool)
+    public function new(inv:Inventory, type:InventoryType)
     {
-        area = new InventoryArea(WINDOW_WIDTH, WINDOW_HEIGHT, inv, isPlayer);
+        area = new InventoryArea(WINDOW_WIDTH, WINDOW_HEIGHT, inv, type);
         addChild(area);
 
         super("Inventory", WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    public function setInventory(inv:Inventory, isPlayer:Bool)
+    public function setInventory(inv:Inventory, type:InventoryType)
     {
-        area.setInventory(inv, isPlayer);
+        area.setInventory(inv, type);
     }
 
     override public function update()

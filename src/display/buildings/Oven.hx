@@ -7,8 +7,8 @@ import model.Item;
 
 class Oven extends Building
 {
-    public var fuel_slot(default, null):Item;
-    public var ore_slot(default, null):Item;
+    public var fuel_slot:Item;
+    public var ore_slot:Item;
 
     var counter:Int;
     var skipTick:Bool;
@@ -84,7 +84,7 @@ class Oven extends Building
             return true;
         }
 
-        if (item.getType() == IRON && ore_slot == null)
+        if (item.canSmelt() != null && ore_slot == null)
         {
             ore_slot = item;
             updated();

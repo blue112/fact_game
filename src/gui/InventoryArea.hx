@@ -8,20 +8,27 @@ import flash.events.MouseEvent;
 import model.Inventory;
 import model.Item;
 
+enum InventoryType
+{
+    PLAYER;
+    CHEST;
+    CUSTOM(cb:Item->Void);
+}
+
 class InventoryArea extends Sprite
 {
     static private inline var MARGIN:Int = 30;
 
     var inventoryModel:Inventory;
-    var isPlayer:Bool;
+    var inventoryType:InventoryType;
 
     var h:Int;
     var w:Int;
 
-    public function new(w:Int, h:Int, inv:Inventory, isPlayer:Bool)
+    public function new(w:Int, h:Int, inv:Inventory, inventoryType:InventoryType)
     {
         this.inventoryModel = inv;
-        this.isPlayer = isPlayer;
+        this.inventoryType = inventoryType;
 
         this.w = w;
         this.h = h;
@@ -31,11 +38,11 @@ class InventoryArea extends Sprite
         super();
     }
 
-    public function setInventory(inv:Inventory, isPlayer:Bool)
+    public function setInventory(inv:Inventory, inventoryType:InventoryType)
     {
         inv.removeEventListener(InventoryEvent.CHANGE, onInventoryChange);
         this.inventoryModel = inv;
-        this.isPlayer = isPlayer;
+        this.inventoryType = inventoryType;
         inv.addEventListener(InventoryEvent.CHANGE, onInventoryChange);
     }
 
@@ -93,14 +100,18 @@ class InventoryArea extends Sprite
 
     private function onItemClick(item:Item, _)
     {
-        if (!isPlayer)
+        switch (inventoryType)
         {
-            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(item.getType(), item.getQuantity())));
-            inventoryModel.removeItem(item.getType(), item.getQuantity());
-        }
-        else if (item.isBuildable())
-        {
-            EventManager.dispatch(new BuildEvent(BuildEvent.START_BUILDING, item));
+            case PLAYER:
+                if (item.isBuildable())
+                {
+                    EventManager.dispatch(new BuildEvent(BuildEvent.START_BUILDING, item));
+                }
+            case CHEST:
+                EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(item.getType(), item.getQuantity())));
+                inventoryModel.removeItem(item.getType(), item.getQuantity());
+            case CUSTOM(cb):
+                cb(item);
         }
     }
 

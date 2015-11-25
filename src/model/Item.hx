@@ -16,6 +16,7 @@ import flash.display.Sprite;
 @:bitmap("assets/oven.png") class OvenPNG extends BitmapData {}
 @:bitmap("assets/rim.png") class RimPNG extends BitmapData {}
 @:bitmap("assets/stone.png") class StonePNG extends BitmapData {}
+@:bitmap("assets/brick.png") class BrickPNG extends BitmapData {}
 
 enum ItemType
 {
@@ -30,6 +31,7 @@ enum ItemType
     CHEST;
     OVEN;
     RIM;
+    BRICK;
 }
 
 class Item
@@ -71,6 +73,7 @@ class Item
             case CHEST: new ChestPNG(0,0);
             case OVEN: new OvenPNG(0,0);
             case RIM: new RimPNG(0,0);
+            case BRICK: new BrickPNG(0,0);
         };
 
         return asset;
@@ -80,7 +83,7 @@ class Item
     {
         return switch (type)
         {
-            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM: true;
+            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM, BRICK: true;
             case COAL, IRON, WHEAT, BREAD, IRON_BAR, STONE: false;
         }
     }
@@ -142,6 +145,7 @@ class Item
         {
             case COAL: "Coal";
             case IRON: "Iron Ore";
+            case BRICK: "Brick";
             case STONE: "Stone";
             case WHEAT: "Wheat";
             case BREAD: "Bread";
@@ -167,12 +171,12 @@ class Item
 
     public function canSmelt()
     {
-        if (type == IRON)
+        return switch (type)
         {
-            return IRON_BAR;
+            case IRON: IRON_BAR;
+            case STONE: BRICK;
+            default: null;
         }
-
-        return null;
     }
 
     public function decrease(?n:Int = 1)

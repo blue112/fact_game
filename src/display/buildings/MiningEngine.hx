@@ -40,7 +40,7 @@ class MiningEngine extends Building
 
         return switch (tile.getType())
         {
-            case IRON, WHEAT, COAL: true;
+            case IRON, WHEAT, COAL, STONE: true;
             default: return false;
         }
     }
