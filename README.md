@@ -21,10 +21,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Oven (Iron + Coal => Iron Bars)
 - Add a GUI window to the oven
 - Be able to move windows with drag'n'drop
+- [BUG] Opening the craft window when the inventory is opened prevents from closing both
 
 # Todo
 
-- [BUG] Opening the craft window when the inventory is opened prevents from closing both
 - Crafting machines (input components => output result)
 - Descontruct buildings
 - [BONUS] Make convert belts move item "visibly slowly"

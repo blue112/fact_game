@@ -69,6 +69,8 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.OPEN_OVEN_WINDOW, function(e:GUIEvent)
         {
+            closeActiveWindow();
+
             var ovenWindow = new gui.OvenWindow(c.inventory, e.data);
             activeWindow = ovenWindow;
             activeWindow.show();
@@ -78,6 +80,8 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {
+            closeActiveWindow();
+
             var isPlayer = false;
             if (e.data == null)
             {
@@ -101,6 +105,8 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.OPEN_CRAFT_WINDOW, function(_)
         {
+            closeActiveWindow();
+
             if (craftWindow != null)
             {
                 activeWindow = craftWindow;
@@ -128,7 +134,7 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.CLOSE_ACTIVE_WINDOW, function(_)
         {
-            activeWindow.close();
+            closeActiveWindow();
         });
         EventManager.listen(InventoryEvent.ADD_ITEM, function(e:InventoryEvent)
         {
@@ -141,6 +147,15 @@ class Main extends Sprite
         });
 
         load();
+    }
+
+    private function closeActiveWindow()
+    {
+        if (activeWindow != null)
+        {
+            activeWindow.close();
+            activeWindow = null;
+        }
     }
 
     private function onSave(_)
