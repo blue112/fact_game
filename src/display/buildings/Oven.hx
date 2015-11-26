@@ -35,7 +35,12 @@ class Oven extends Building
             return WORKING;
         }
 
-        if (fuel_slot != null && ore_slot != null)
+        if (fuel_slot == null)
+        {
+            return FUEL_EMPTY;
+        }
+
+        if (ore_slot != null)
         {
             var type = ore_slot.canSmelt();
             if (type != null)
@@ -48,10 +53,11 @@ class Oven extends Building
                     }
 
                     counter = 0;
-                    fuel_slot.decrease();
 
+                    fuel_slot.decrease();
                     if (fuel_slot.getQuantity() == 0)
                         fuel_slot = null;
+
                     ore_slot.decrease();
                     if (ore_slot.getQuantity() == 0)
                         ore_slot = null;

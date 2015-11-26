@@ -31,6 +31,7 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Smelt stone to make bricks
 - Add variations of the tiles for stone, iron and coal switch between them at random
 - Make Mining Engines work using Coal
+- Add the "no fuel" icon to oven that have no coal
 
 # Todo
 
