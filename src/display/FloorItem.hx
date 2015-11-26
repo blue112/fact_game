@@ -3,7 +3,7 @@ package display;
 import flash.display.Sprite;
 import model.Item;
 
-class ItemOnFloor extends Sprite
+class FloorItem extends Sprite
 {
     public var posX:Int;
     public var posY:Int;

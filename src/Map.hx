@@ -1,5 +1,5 @@
 import display.Building;
-import display.ItemOnFloor;
+import display.FloorItem;
 import events.BuildEvent;
 import events.GameEvent;
 import events.InventoryEvent;
@@ -27,7 +27,7 @@ class Map extends Sprite
     static public inline var BACKGROUND_COLOR:Int = 0xCCCCCC;
 
     var tiles:StringMap<Tile>;
-    var floorItems:StringMap<Array<ItemOnFloor>>;
+    var floorItems:StringMap<Array<FloorItem>>;
     var buildings:StringMap<Building>;
 
     var currentTile:Null<Tile>;
@@ -235,12 +235,12 @@ class Map extends Sprite
 
     public function putFloorItem(x:Int, y:Int, t:ItemType)
     {
-        var floorItem = new display.ItemOnFloor(new Item(t), x, y);
+        var floorItem = new display.FloorItem(new Item(t), x, y);
         flooritem_layer.addChild(floorItem);
         addFloorItem(x, y, floorItem);
     }
 
-    private function addFloorItem(x:Int, y:Int, t:ItemOnFloor)
+    private function addFloorItem(x:Int, y:Int, t:FloorItem)
     {
         var key = x+";"+y;
 
@@ -254,7 +254,7 @@ class Map extends Sprite
         }
     }
 
-    public function getFloorItem(x:Int, y:Int):Null<ItemOnFloor>
+    public function getFloorItem(x:Int, y:Int):Null<FloorItem>
     {
         var key = x+";"+y;
 
@@ -272,7 +272,7 @@ class Map extends Sprite
         return floorItems.exists(x+";"+y);
     }
 
-    public function removeFloorItem(x:Int, y:Int):Null<ItemOnFloor>
+    public function removeFloorItem(x:Int, y:Int):Null<FloorItem>
     {
         var item = pickOneFloorItem(x, y);
         if (item != null)

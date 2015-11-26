@@ -1,7 +1,7 @@
 package display.buildings;
 
 import display.Building;
-import display.ItemOnFloor;
+import display.FloorItem;
 import model.Item;
 
 enum BeltState
@@ -17,7 +17,7 @@ class ConveyorBelt extends Building
     var counter:Int;
     static private inline var TIME_TO_MOVE:Int = 5; //0.5s
 
-    var item:ItemOnFloor;
+    var item:FloorItem;
     var state:BeltState;
 
     public function new()
