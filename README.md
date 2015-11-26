@@ -46,6 +46,8 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 
 # Todo
 
+- Make remote save system
+- Implements enemies
 - [BONUS] Look for focus lost to stop mining
 - Add nice graphics (help needed)
 - Create a nice game
