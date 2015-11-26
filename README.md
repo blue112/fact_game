@@ -30,10 +30,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Add stone ressource to make oven
 - Smelt stone to make bricks
 - Add variations of the tiles for stone, iron and coal switch between them at random
+- Make Mining Engines work using Coal
 
 # Todo
 
-- Make Mining Engines work using Coal
 - Cleanup SVG
 - Crafting machines (input components => output result)
 - Handle deconstructing building doesn't preserve inventories and slots

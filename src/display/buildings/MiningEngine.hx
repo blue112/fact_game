@@ -1,14 +1,30 @@
 package display.buildings;
 
 import display.Building;
+import events.GUIEvent;
+import events.UpdateEvent;
+import flash.events.ProgressEvent;
+import model.Item;
 
 class MiningEngine extends Building
 {
     static private var SPEED:Int = 5;
 
+    public var fuel_slot:Item;
+    var coal_life_point:Int;
+    static inline var MAX_COAL_LIFE_POINT:Int = 1200; //1200 ticks => 120s => 2m
+
     public function new()
     {
         super(MINING_ENGINE);
+
+        fuel_slot = null;
+        coal_life_point = MAX_COAL_LIFE_POINT;
+    }
+
+    override public function interact()
+    {
+        EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_MINING_ENGINE_WINDOW, this));
     }
 
     override private function work()
@@ -19,7 +35,22 @@ class MiningEngine extends Building
 
         if (map.hasFloorItem(itemCoordX, itemCoordY))
         {
-            return false;
+            return CANNOT_WORK;
+        }
+
+        //Check fuel
+        if (fuel_slot == null)
+            return FUEL_EMPTY;
+
+        coal_life_point--;
+        dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, coal_life_point, MAX_COAL_LIFE_POINT));
+        if (coal_life_point == 0)
+        {
+            if (fuel_slot.decrease() == 0)
+                fuel_slot = null;
+
+            dispatchEvent(new UpdateEvent(UpdateEvent.UPDATE));
+            coal_life_point = MAX_COAL_LIFE_POINT;
         }
 
         var t = map.getTile(posX, posY);
@@ -30,7 +61,7 @@ class MiningEngine extends Building
             pushItem(new model.Item(type));
         }
 
-        return true;
+        return WORKING;
     }
 
     override public function isBuildable(tile:Tile)

@@ -50,7 +50,7 @@ class Chest extends Building
 
     override private function work()
     {
-        return true;
+        return WORKING;
     }
 
     override public function isBuildable(tile:Tile)

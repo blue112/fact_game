@@ -32,7 +32,7 @@ class Oven extends Building
         if (skipTick)
         {
             skipTick = false;
-            return true;
+            return WORKING;
         }
 
         if (fuel_slot != null && ore_slot != null)
@@ -44,7 +44,7 @@ class Oven extends Building
                 {
                     if (!pushItem(new Item(type, 1)))
                     {
-                        return false;
+                        return CANNOT_WORK;
                     }
 
                     counter = 0;
@@ -66,7 +66,7 @@ class Oven extends Building
             }
         }
 
-        return true;
+        return WORKING;
     }
 
     override public function interact()

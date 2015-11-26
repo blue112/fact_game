@@ -52,7 +52,7 @@ class Rim extends Building
             case WAIT_PUSH_ITEM:
                 if (!pushItem(item_slot, getBackCoordinates()))
                 {
-                    return false;
+                    return CANNOT_WORK;
                 }
 
                 state = RETURN_TO_POSITION;
@@ -65,7 +65,7 @@ class Rim extends Building
                 }
         }
 
-        return true;
+        return WORKING;
     }
 
     override public function rotate()

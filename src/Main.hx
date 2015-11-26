@@ -72,18 +72,16 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.OPEN_OVEN_WINDOW, function(e:GUIEvent)
         {
-            closeActiveWindow();
-
             var ovenWindow = new gui.OvenWindow(c.inventory, e.data);
-            activeWindow = ovenWindow;
-            activeWindow.show();
-            activeWindow.x = (stage.stageWidth - activeWindow.width) / 2;
-            activeWindow.y = (stage.stageHeight - activeWindow.height) / 2;
-            addChild(activeWindow);
+            showWindow(ovenWindow);
+        });
+        EventManager.listen(GUIEvent.OPEN_MINING_ENGINE_WINDOW, function(e:GUIEvent)
+        {
+            var meWindow = new gui.MiningEngineWindow(c.inventory, e.data);
+            showWindow(meWindow);
         });
         EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {
-            closeActiveWindow();
 
             var isPlayer = false;
             if (e.data == null)
@@ -94,6 +92,7 @@ class Main extends Sprite
 
             if (inventoryWindow != null)
             {
+                closeActiveWindow();
                 activeWindow = inventoryWindow;
                 inventoryWindow.setInventory(e.data, isPlayer ? InventoryType.PLAYER : InventoryType.CHEST);
                 inventoryWindow.show();
@@ -101,27 +100,20 @@ class Main extends Sprite
             }
 
             inventoryWindow = new InventoryWindow(e.data, isPlayer ? InventoryType.PLAYER : InventoryType.CHEST);
-            inventoryWindow.x = (stage.stageWidth - inventoryWindow.width) / 2;
-            inventoryWindow.y = (stage.stageHeight - inventoryWindow.height) / 2;
-            activeWindow = inventoryWindow;
-            addChild(inventoryWindow);
+            showWindow(inventoryWindow);
         });
         EventManager.listen(GUIEvent.OPEN_CRAFT_WINDOW, function(_)
         {
-            closeActiveWindow();
-
             if (craftWindow != null)
             {
+                closeActiveWindow();
                 activeWindow = craftWindow;
                 craftWindow.show();
                 return;
             }
 
             craftWindow = new CraftWindow(c.inventory);
-            craftWindow.x = (stage.stageWidth - craftWindow.width) / 2;
-            craftWindow.y = (stage.stageHeight - craftWindow.height) / 2;
-            activeWindow = craftWindow;
-            addChild(craftWindow);
+            showWindow(craftWindow);
         });
         EventManager.listen(MapEvent.GATHERING_PROGRESS, function(e:MapEvent)
         {
@@ -165,6 +157,17 @@ class Main extends Sprite
         {
             load();
         }
+    }
+
+    private function showWindow(win:gui.Window)
+    {
+        closeActiveWindow();
+
+        activeWindow = win;
+        activeWindow.show();
+        activeWindow.x = (stage.stageWidth - activeWindow.width) / 2;
+        activeWindow.y = (stage.stageHeight - activeWindow.height) / 2;
+        addChild(activeWindow);
     }
 
     private function closeActiveWindow()

@@ -19,7 +19,7 @@ class ConveyorBelt extends Building
         if (skipTick)
         {
             skipTick = false;
-            return true;
+            return WORKING;
         }
 
         var i = map.getFloorItem(posX, posY);
@@ -31,7 +31,7 @@ class ConveyorBelt extends Building
             }
         }
 
-        return true;
+        return WORKING;
     }
 
     override public function addItem(item:Item):Bool

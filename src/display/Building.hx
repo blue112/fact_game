@@ -5,6 +5,7 @@ import display.buildings.ConveyorBelt;
 import display.buildings.MiningEngine;
 import display.buildings.Oven;
 import display.buildings.Rim;
+import display.EmptyFuelSign;
 import display.NotWorkingSign;
 import display.Tile;
 import display.Tile.TileType;
@@ -25,6 +26,13 @@ enum BuildingType
     RIM;
 }
 
+enum WorkState
+{
+    WORKING;
+    CANNOT_WORK;
+    FUEL_EMPTY;
+}
+
 @:bitmap("assets/building_mining_engine.png") class BuildingMiningEnginePNG extends BitmapData {}
 @:bitmap("assets/building_conveyor_belt.png") class BuildingConveyorBeltPNG extends BitmapData {}
 @:bitmap("assets/building_chest.png") class BuildingChestPNG extends BitmapData {}
@@ -37,21 +45,21 @@ class Building extends Sprite
     public var posX(default, null):Int;
     public var posY(default, null):Int;
     var map:Map;
-    var not_working_sign:Sprite;
+    var sign:Sprite;
 
     static private inline var MAX_LIFEPOINT = 50;
 
     var buildIcon:Sprite;
     var lifepoint:Int;
 
-    var workState:Bool;
+    var workState:WorkState;
     var rotationState:Int; //0: face south, 1: west, 2: north, 3: east
 
     private function new(type:BuildingType)
     {
         this.type = type;
 
-        workState = true;
+        workState = WORKING;
         rotationState = 0;
         lifepoint = MAX_LIFEPOINT;
 
@@ -76,10 +84,33 @@ class Building extends Sprite
 
         addChild(buildIcon);
 
-        not_working_sign = new NotWorkingSign();
-        addChild(not_working_sign);
-
         super();
+    }
+
+    private function updateWorkingState(w:WorkState)
+    {
+        if (workState == w)
+            return;
+
+        this.workState = w;
+        var icon = switch (w)
+        {
+            case WORKING: null;
+            case CANNOT_WORK: new NotWorkingSign();
+            case FUEL_EMPTY: new EmptyFuelSign();
+        }
+
+        if (sign != null)
+        {
+            removeChild(sign);
+            sign = null;
+        }
+
+        if (icon != null)
+        {
+            sign = icon;
+            addChild(icon);
+        }
     }
 
     private function updated()
@@ -233,18 +264,12 @@ class Building extends Sprite
     {
         if (isBuilt())
         {
-            if (!work())
-            {
-                not_working_sign.visible = true;
-            }
-            else
-            {
-                not_working_sign.visible = false;
-            }
+            var state = work();
+            updateWorkingState(state);
         }
     }
 
-    private function work():Bool
+    private function work():WorkState
     {
         throw "Should be overwritten";
     }
