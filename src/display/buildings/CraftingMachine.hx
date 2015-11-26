@@ -130,6 +130,38 @@ class CraftingMachine extends Building
         return true;
     }
 
+    override public function loadData(data:Dynamic)
+    {
+        if (data.selectedRecipe != null)
+        {
+            selectedRecipe = gui.CraftWindow.recipes[data.selectedRecipe];
+        }
+    }
+
+    override public function serialize()
+    {
+        var data:Dynamic = super.serialize();
+
+        if (selectedRecipe != null)
+        {
+            var n = 0;
+            for (i in gui.CraftWindow.recipes)
+            {
+                if (selectedRecipe == i)
+                     break;
+
+                n++;
+            }
+            data.selectedRecipe = n;
+        }
+        else
+        {
+            data.selectedRecipe = null;
+        }
+
+        return data;
+    }
+
     public function set_selectedRecipe(r:Recipe):Recipe
     {
         if (r == selectedRecipe)
