@@ -2,6 +2,7 @@ package display.buildings;
 
 import display.Building;
 import events.GUIEvent;
+import events.InventoryEvent;
 import events.UpdateEvent;
 import flash.events.ProgressEvent;
 import model.Item;
@@ -83,6 +84,14 @@ class MiningEngine extends Building
         }
 
         return WORKING;
+    }
+
+    override private function onDeconstructed()
+    {
+        if (fuel_slot != null)
+        {
+            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, fuel_slot));
+        }
     }
 
     override public function isBuildable(tile:Tile)

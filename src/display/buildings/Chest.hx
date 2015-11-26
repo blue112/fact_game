@@ -2,6 +2,7 @@ package display.buildings;
 
 import display.Building;
 import events.GUIEvent;
+import events.InventoryEvent;
 import model.Inventory;
 import model.Item;
 
@@ -28,6 +29,14 @@ class Chest extends Building
         if (data.inventory != null)
         {
             inventory.load(data.inventory);
+        }
+    }
+
+    override private function onDeconstructed()
+    {
+        for (i in inventory.getItems())
+        {
+            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, i));
         }
     }
 

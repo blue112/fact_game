@@ -2,6 +2,7 @@ package display.buildings;
 
 import display.Building;
 import events.GUIEvent;
+import events.InventoryEvent;
 import flash.events.ProgressEvent;
 import model.Item;
 
@@ -79,6 +80,18 @@ class Oven extends Building
     {
         //Opens the chest inventory window
         EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_OVEN_WINDOW, this));
+    }
+
+    override private function onDeconstructed()
+    {
+        if (fuel_slot != null)
+        {
+            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, fuel_slot));
+        }
+        if (ore_slot != null)
+        {
+            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, ore_slot));
+        }
     }
 
     override public function addItem(item:Item):Bool

@@ -39,10 +39,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Collisions (stone, buildings)
 - Item launcher (strong RIM) => Push item further than one tile (two tiles)
 - Ability to add multiple coal into AME
+- Handle deconstructing building doesn't preserve inventories and slots
 
 # Todo
 
-- Handle deconstructing building doesn't preserve inventories and slots
 - Do not draw tiles outside the map boundaries
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem

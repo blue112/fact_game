@@ -2,6 +2,7 @@ package display.buildings;
 
 import display.Building;
 import events.GUIEvent;
+import events.InventoryEvent;
 import events.UpdateEvent;
 import flash.events.ProgressEvent;
 import gui.CraftWindow.Recipe;
@@ -89,6 +90,17 @@ class CraftingMachine extends Building
     private function updateProgress()
     {
         dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, counter, TIME_TO_CRAFT));
+    }
+
+    override private function onDeconstructed()
+    {
+        for (i in components)
+        {
+            if (i != null)
+            {
+                EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, i));
+            }
+        }
     }
 
     override public function interact()
