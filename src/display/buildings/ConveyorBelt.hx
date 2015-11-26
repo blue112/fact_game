@@ -1,15 +1,31 @@
 package display.buildings;
 
 import display.Building;
+import display.ItemOnFloor;
 import model.Item;
+
+enum BeltState
+{
+    WAITING;
+    MOVING;
+}
 
 class ConveyorBelt extends Building
 {
     var skipTick:Bool;
 
+    var counter:Int;
+    static private inline var TIME_TO_MOVE:Int = 5; //0.5s
+
+    var item:ItemOnFloor;
+    var state:BeltState;
+
     public function new()
     {
         skipTick = false;
+
+        state = WAITING;
+        item = null;
 
         super(CONVEYOR_BELT);
     }
@@ -22,13 +38,37 @@ class ConveyorBelt extends Building
             return WORKING;
         }
 
-        var i = map.getFloorItem(posX, posY);
-        if (i != null)
+        switch (state)
         {
-            if (pushItem(i.getItem()))
-            {
-                map.removeFloorItem(posX, posY);
-            }
+            case WAITING:
+                var i = map.getFloorItem(posX, posY);
+                if (i != null && canPushItem(i.getItem()))
+                {
+                    item = i;
+                    state = MOVING;
+                }
+            case MOVING:
+                if (counter == TIME_TO_MOVE)
+                {
+                    if (pushItem(item.getItem()))
+                    {
+                        map.removeFloorItem(posX, posY);
+                        item = null;
+                        state = WAITING;
+                        counter = 0;
+                    }
+                }
+                else
+                {
+                    switch (rotationState)
+                    {
+                        case 0: item.y = (item.posY * Map.TILE_HEIGHT) + Map.TILE_HEIGHT * (counter / TIME_TO_MOVE);
+                        case 1: item.x = (item.posX * Map.TILE_WIDTH) - Map.TILE_WIDTH * (counter / TIME_TO_MOVE);
+                        case 2: item.y = (item.posY * Map.TILE_HEIGHT) - Map.TILE_HEIGHT * (counter / TIME_TO_MOVE);
+                        case 3: item.x = (item.posX * Map.TILE_WIDTH) + Map.TILE_WIDTH * (counter / TIME_TO_MOVE);
+                    }
+                    counter++;
+                }
         }
 
         return WORKING;
@@ -41,7 +81,7 @@ class ConveyorBelt extends Building
         return true;
     }
 
-    override public function acceptItem()
+    override public function acceptItem(_)
     {
         return !map.hasFloorItem(posX, posY);
     }

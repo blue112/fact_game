@@ -149,7 +149,7 @@ class Building extends Sprite
         lifepoint = MAX_LIFEPOINT;
     }
 
-    private function acceptItem()
+    private function acceptItem(type:ItemType)
     {
         return false;
     }
@@ -164,6 +164,33 @@ class Building extends Sprite
         //Nothing to do
     }
 
+    private function canPushItem(i:Item, ?c:{x:Int, y:Int})
+    {
+        //Check if there's something on my tile
+        if (c == null)
+            c = getFrontCoordinates();
+
+        if (!map.hasFloorItem(c.x, c.y))
+        {
+            var b = map.getBuilding(c.x, c.y);
+            if (b != null)
+            {
+                if (b.acceptItem(i.getType()))
+                {
+                    if (i != null)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            //Move it forward
+            return true;
+        }
+
+        return false;
+    }
     /**
     * Push an item to a tile forward
     * @arg i Item to push
@@ -182,7 +209,7 @@ class Building extends Sprite
             var b = map.getBuilding(c.x, c.y);
             if (b != null)
             {
-                if (b.acceptItem())
+                if (b.acceptItem(i.getType()))
                 {
                     if (i != null)
                     {

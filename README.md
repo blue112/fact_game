@@ -41,10 +41,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Ability to add multiple coal into AME
 - Handle deconstructing building doesn't preserve inventories and slots
 - Do not draw tiles outside the map boundaries
+- [BONUS] Make conveyor belts move item "visibly slowly"
 
 # Todo
 
-- [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
 - [BONUS] Look for focus lost to stop mining
 - Add nice graphics (help needed)

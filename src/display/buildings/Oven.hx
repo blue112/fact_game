@@ -113,9 +113,14 @@ class Oven extends Building
         return false;
     }
 
-    override public function acceptItem()
+    override public function acceptItem(type:ItemType)
     {
-        return !map.hasFloorItem(posX, posY);
+        if ((type == COAL && fuel_slot == null) || (type != null && ore_slot == null))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     override public function isBuildable(tile:Tile)

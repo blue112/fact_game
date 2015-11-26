@@ -111,19 +111,16 @@ class CraftingMachine extends Building
 
     override public function addItem(item:Item):Bool
     {
-        if (selectedRecipe != null)
+        if (acceptItem(item.getType()))
         {
             var n = 0;
             for (i in selectedRecipe.components)
             {
                 if (item.getType() == i.type)
                 {
-                    if (components[n].getQuantity() < i.quantity)
-                    {
-                        components[n].increase(item.getQuantity());
-                        updated();
-                        return true;
-                    }
+                    components[n].increase(item.getQuantity());
+                    updated();
+                    return true;
                 }
                 n++;
             }
@@ -132,9 +129,25 @@ class CraftingMachine extends Building
         return false;
     }
 
-    override public function acceptItem()
+    override public function acceptItem(type:ItemType)
     {
-        return state == WAITING && selectedRecipe != null;
+        if (state == WAITING && selectedRecipe != null)
+        {
+            var n = 0;
+            for (i in selectedRecipe.components)
+            {
+                if (type == i.type)
+                {
+                    if (components[n].getQuantity() < i.quantity)
+                    {
+                        return true;
+                    }
+                }
+                n++;
+            }
+        }
+
+        return false;
     }
 
     override public function isBuildable(tile:Tile)

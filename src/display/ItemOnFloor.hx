@@ -5,8 +5,8 @@ import model.Item;
 
 class ItemOnFloor extends Sprite
 {
-    var posX:Int;
-    var posY:Int;
+    public var posX:Int;
+    public var posY:Int;
     var item:Item;
 
     public function new(item:Item, posX:Int, posY:Int)

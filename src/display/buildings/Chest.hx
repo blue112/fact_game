@@ -40,7 +40,7 @@ class Chest extends Building
         }
     }
 
-    override private function acceptItem()
+    override private function acceptItem(_)
     {
         return true;
     }

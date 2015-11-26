@@ -77,7 +77,7 @@ class Rim extends Building
             super.rotate();
     }
 
-    override private function acceptItem()
+    override private function acceptItem(_)
     {
         return state == WAITING_FOR_ITEM;
     }
