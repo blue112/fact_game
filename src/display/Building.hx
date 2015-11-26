@@ -300,6 +300,15 @@ class Building extends Sprite
         return false;
     }
 
+    public function isWalkable()
+    {
+        return switch (this.type)
+        {
+            case CHEST, CRAFTING_MACHINE, OVEN, RIM, MINING_ENGINE: false;
+            case CONVEYOR_BELT: true;
+        }
+    }
+
     static public function fromItem(type:ItemType)
     {
         return switch (type)

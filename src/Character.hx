@@ -18,6 +18,8 @@ class Character extends Sprite
     private var direction:Int;
     private var animation_state:Int;
 
+    private var map:Map;
+
     static public inline var DIRECTION_UP:Int = 0;
     static public inline var DIRECTION_RIGHT:Int = 1;
     static public inline var DIRECTION_DOWN:Int = 2;
@@ -25,9 +27,11 @@ class Character extends Sprite
 
     static public inline var MAX_HUNGER:Int = 100;
 
-    public function new()
+    public function new(m:Map)
     {
         super();
+
+        this.map = m;
 
         this.x = 0;
         this.y = 0;
@@ -90,15 +94,21 @@ class Character extends Sprite
 
     private function set_pos_x(v:Int):Int
     {
-        this.pos_x = v;
-        updateChar();
+        if (map.isWalkable(v, this.pos_y))
+        {
+            this.pos_x = v;
+            updateChar();
+        }
         return this.pos_x;
     }
 
     private function set_pos_y(v:Int):Int
     {
-        this.pos_y = v;
-        updateChar();
+        if (map.isWalkable(this.pos_x, v))
+        {
+            this.pos_y = v;
+            updateChar();
+        }
         return this.pos_y;
     }
 

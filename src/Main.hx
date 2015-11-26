@@ -40,7 +40,7 @@ class Main extends Sprite
 
         var timeManager = new TimeManager(map);
 
-        var c = new Character();
+        var c = new Character(map);
 
         this.character = c;
 

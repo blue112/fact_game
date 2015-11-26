@@ -186,6 +186,17 @@ class Map extends Sprite
         }
     }
 
+    public function isWalkable(posX:Int, posY:Int)
+    {
+        var b = getBuilding(posX, posY);
+        if (b != null)
+        {
+            return b.isWalkable();
+        }
+
+        return (posX >= 0 && posY >= 0 && posX < MAP_WIDTH && posY < MAP_HEIGHT);
+    }
+
     private function onStartBuilding(e:BuildEvent)
     {
         var item:Item = e.data;
