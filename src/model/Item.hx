@@ -177,7 +177,7 @@ class Item
         return type;
     }
 
-    public function increase(n:Int)
+    public function increase(?n:Int = 1)
     {
         quantity += n;
         return quantity;

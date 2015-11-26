@@ -68,9 +68,16 @@ class MiningEngineWindow extends Window
 
     private function onItemClick(item:Item)
     {
-        if (item.getType() == COAL && mining_engine.fuel_slot == null)
+        if (item.getType() == COAL)
         {
-            mining_engine.fuel_slot = new Item(item.getType(), 1);
+            if (mining_engine.fuel_slot == null)
+            {
+                mining_engine.fuel_slot = new Item(item.getType(), 1);
+            }
+            else
+            {
+                mining_engine.fuel_slot.increase();
+            }
             inv.removeItem(item.getType(), 1);
             update();
         }
