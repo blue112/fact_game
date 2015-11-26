@@ -24,20 +24,16 @@ class CraftWindow extends Window
 
     static private inline var RECIPE_BLOCK_X:Int = 80;
 
-    var recipes:Array<Recipe>;
+    static public var recipes:Array<Recipe> = initRecipes();
     var recipeBlock:Sprite;
 
     var activeRecipe:Recipe;
 
     var inventory:Inventory;
 
-    public function new(inv:Inventory)
+    static function initRecipes()
     {
-        super("Craft", WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        this.inventory = inv;
-
-        recipes = [
+        return [
             {item: ItemType.BREAD, components: [
                 {type: ItemType.WHEAT, quantity: 5}
             ]},
@@ -46,7 +42,8 @@ class CraftWindow extends Window
                 {type: ItemType.COAL, quantity: 1}
             ]},
             {item: ItemType.CONVEYOR_BELT, components: [
-                {type: ItemType.IRON_BAR, quantity: 3},
+                {type: ItemType.IRON_BAR, quantity: 2},
+                {type: ItemType.GEAR, quantity: 1},
             ]},
             {item: ItemType.CHEST, components: [
                 {type: ItemType.IRON_BAR, quantity: 1},
@@ -56,8 +53,22 @@ class CraftWindow extends Window
             ]},
             {item: ItemType.RIM, components: [
                 {type: ItemType.IRON_BAR, quantity: 5},
+            ]},
+            {item: ItemType.GEAR, components: [
+                {type: ItemType.IRON_BAR, quantity: 1},
+            ]},
+            {item: ItemType.CRAFTING_MACHINE, components: [
+                {type: ItemType.IRON_BAR, quantity: 3},
+                {type: ItemType.GEAR, quantity: 5},
             ]}
         ];
+    }
+
+    public function new(inv:Inventory)
+    {
+        super("Craft", WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        this.inventory = inv;
 
         var recipeLabel = new AutoTF("Recipes:", true, 15, 0xFFFFFF, true);
         recipeLabel.x = MARGIN;

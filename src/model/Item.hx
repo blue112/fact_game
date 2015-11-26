@@ -17,6 +17,8 @@ import flash.display.Sprite;
 @:bitmap("assets/rim.png") class RimPNG extends BitmapData {}
 @:bitmap("assets/stone.png") class StonePNG extends BitmapData {}
 @:bitmap("assets/brick.png") class BrickPNG extends BitmapData {}
+@:bitmap("assets/craftingmachine.png") class CraftingMachinePNG extends BitmapData {}
+@:bitmap("assets/gear.png") class GearPNG extends BitmapData {}
 
 enum ItemType
 {
@@ -32,6 +34,8 @@ enum ItemType
     OVEN;
     RIM;
     BRICK;
+    GEAR;
+    CRAFTING_MACHINE;
 }
 
 class Item
@@ -74,6 +78,8 @@ class Item
             case OVEN: new OvenPNG(0,0);
             case RIM: new RimPNG(0,0);
             case BRICK: new BrickPNG(0,0);
+            case GEAR: new GearPNG(0,0);
+            case CRAFTING_MACHINE: new CraftingMachinePNG(0,0);
         };
 
         return asset;
@@ -83,8 +89,8 @@ class Item
     {
         return switch (type)
         {
-            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM, BRICK: true;
-            case COAL, IRON, WHEAT, BREAD, IRON_BAR, STONE: false;
+            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM, BRICK, CRAFTING_MACHINE: true;
+            case COAL, IRON, WHEAT, BREAD, IRON_BAR, STONE, GEAR: false;
         }
     }
 
@@ -94,7 +100,9 @@ class Item
 
         var on = new Sprite();
         on.graphics.lineStyle(1, 0);
-        on.addChild(new Bitmap(asset));
+        var bmp = new Bitmap(asset);
+        bmp.smoothing = true;
+        on.addChild(bmp);
 
         var quantityText = Std.string(this.quantity);
         var color = 0xFFFFFF;
@@ -155,6 +163,8 @@ class Item
             case CHEST: "Chest";
             case OVEN: "Oven";
             case RIM: "Rotative Item Mover";
+            case GEAR: "Gear";
+            case CRAFTING_MACHINE: "Automated Crafting Machine";
         };
     }
 

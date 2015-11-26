@@ -33,9 +33,13 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Make Mining Engines work using Coal
 - Add the "no fuel" icon to oven that have no coal
 - Cleanup SVG
+- Crafting machines
 
 # Todo
 
+- Save assigned recipes from Crafting machines
+- Save coal slot in the AME
+- Item launcher (strong RIM) => Push item further than one tile (two tiles)
 - Crafting machines (input components => output result)
 - Handle deconstructing building doesn't preserve inventories and slots
 - [BONUS] Make convert belts move item "visibly slowly"

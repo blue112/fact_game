@@ -2,6 +2,7 @@ package display;
 
 import display.buildings.Chest;
 import display.buildings.ConveyorBelt;
+import display.buildings.CraftingMachine;
 import display.buildings.MiningEngine;
 import display.buildings.Oven;
 import display.buildings.Rim;
@@ -24,6 +25,7 @@ enum BuildingType
     CHEST;
     OVEN;
     RIM;
+    CRAFTING_MACHINE;
 }
 
 enum WorkState
@@ -38,6 +40,7 @@ enum WorkState
 @:bitmap("assets/building_chest.png") class BuildingChestPNG extends BitmapData {}
 @:bitmap("assets/building_oven.png") class BuildingOvenPNG extends BitmapData {}
 @:bitmap("assets/building_rim.png") class BuildingRimPNG extends BitmapData {}
+@:bitmap("assets/building_crafting_machine.png") class BuildingCraftingMachinePNG extends BitmapData {}
 
 class Building extends Sprite
 {
@@ -71,6 +74,7 @@ class Building extends Sprite
             case CHEST: new BuildingChestPNG(0, 0);
             case OVEN: new BuildingOvenPNG(0, 0);
             case RIM: new BuildingRimPNG(0, 0);
+            case CRAFTING_MACHINE: new BuildingCraftingMachinePNG(0, 0);
         };
 
         buildIcon = new Sprite();
@@ -305,6 +309,7 @@ class Building extends Sprite
             case ItemType.CHEST: new Chest();
             case ItemType.OVEN: new Oven();
             case ItemType.RIM: new Rim();
+            case ItemType.CRAFTING_MACHINE: new CraftingMachine();
             default: throw "Trying to build an unbuildable item type: "+type;
         }
     }
@@ -318,6 +323,7 @@ class Building extends Sprite
             case CHEST: ItemType.CHEST;
             case OVEN: ItemType.OVEN;
             case RIM: ItemType.RIM;
+            case CRAFTING_MACHINE: ItemType.CRAFTING_MACHINE;
         }
     }
 }

@@ -72,13 +72,15 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.OPEN_OVEN_WINDOW, function(e:GUIEvent)
         {
-            var ovenWindow = new gui.OvenWindow(c.inventory, e.data);
-            showWindow(ovenWindow);
+            showWindow(new gui.OvenWindow(c.inventory, e.data));
         });
         EventManager.listen(GUIEvent.OPEN_MINING_ENGINE_WINDOW, function(e:GUIEvent)
         {
-            var meWindow = new gui.MiningEngineWindow(c.inventory, e.data);
-            showWindow(meWindow);
+            showWindow(new gui.MiningEngineWindow(c.inventory, e.data));
+        });
+        EventManager.listen(GUIEvent.OPEN_CRAFTING_MACHINE_WINDOW, function(e:GUIEvent)
+        {
+            showWindow(new gui.CraftingMachineWindow(c.inventory, e.data));
         });
         EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {

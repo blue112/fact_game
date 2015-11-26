@@ -11,6 +11,7 @@ class GUIEvent extends Event
     static public inline var CLOSE_ACTIVE_WINDOW:String = "gui_event_close_active_window";
     static public inline var OPEN_OVEN_WINDOW:String = "gui_event_open_oven_window";
     static public inline var OPEN_MINING_ENGINE_WINDOW:String = "gui_event_open_mining_engine_window";
+    static public inline var OPEN_CRAFTING_MACHINE_WINDOW:String = "gui_event_open_crafting_machine_window";
 
     public function new(type:String, ?data:Dynamic)
     {
