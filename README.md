@@ -32,10 +32,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Add variations of the tiles for stone, iron and coal switch between them at random
 - Make Mining Engines work using Coal
 - Add the "no fuel" icon to oven that have no coal
+- Cleanup SVG
 
 # Todo
 
-- Cleanup SVG
 - Crafting machines (input components => output result)
 - Handle deconstructing building doesn't preserve inventories and slots
 - [BONUS] Make convert belts move item "visibly slowly"
