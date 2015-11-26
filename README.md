@@ -35,10 +35,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Cleanup SVG
 - Crafting machines
 - Save assigned recipes from Crafting machines
+- Save coal slot in the AME
 
 # Todo
 
-- Save coal slot in the AME
 - Collisions (stone, buildings)
 - Item launcher (strong RIM) => Push item further than one tile (two tiles)
 - Crafting machines (input components => output result)

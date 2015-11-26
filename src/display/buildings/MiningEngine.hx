@@ -27,6 +27,27 @@ class MiningEngine extends Building
         EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_MINING_ENGINE_WINDOW, this));
     }
 
+    override public function serialize()
+    {
+        var d:Dynamic = super.serialize();
+
+        if (fuel_slot != null)
+        {
+            d.fuel_slot = {lifepoint: coal_life_point, item: fuel_slot.getType(), quantity: fuel_slot.getQuantity()};
+        }
+
+        return d;
+    }
+
+    override public function loadData(data:Dynamic)
+    {
+        if (data.fuel_slot != null)
+        {
+            fuel_slot = new Item(data.fuel_slot.item, data.fuel_slot.quantity);
+            coal_life_point = data.fuel_slot.lifepoint;
+        }
+    }
+
     override private function work()
     {
         var c = getFrontCoordinates();
