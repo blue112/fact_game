@@ -104,11 +104,14 @@ class Map extends Sprite
                         var pos_x = field_x + i;
                         var pos_y = Std.int((field_y + j) - field_size_y / 2);
 
-                        if (getTile(pos_x, pos_y) == null)
+                        if (isWalkable(pos_x, pos_y))
                         {
-                            var t = new Tile(field_type, pos_x, pos_y);
-                            t.draw(tile_layer, true);
-                            setTile(pos_x, pos_y, t);
+                            if (getTile(pos_x, pos_y) == null)
+                            {
+                                var t = new Tile(field_type, pos_x, pos_y);
+                                t.draw(tile_layer, true);
+                                setTile(pos_x, pos_y, t);
+                            }
                         }
                     }
                 }

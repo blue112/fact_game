@@ -28,7 +28,7 @@ class Main extends Sprite
     var map:Map;
     var character:Character;
 
-    static private inline var LOAD_SAVE:Bool = true;
+    static private inline var LOAD_SAVE:Bool = false;
 
     public function new()
     {

@@ -40,10 +40,10 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Item launcher (strong RIM) => Push item further than one tile (two tiles)
 - Ability to add multiple coal into AME
 - Handle deconstructing building doesn't preserve inventories and slots
+- Do not draw tiles outside the map boundaries
 
 # Todo
 
-- Do not draw tiles outside the map boundaries
 - [BONUS] Make convert belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
 - [BONUS] Look for focus lost to stop mining
