@@ -126,6 +126,19 @@ class Map extends Sprite
 
         EventManager.listen(BuildEvent.START_BUILDING, onStartBuilding);
         EventManager.listen(BuildEvent.ROTATE_BUILDING, onRotateBuildAsked);
+        EventManager.listen(GameEvent.ESCAPE, stopBuilding);
+    }
+
+    private function stopBuilding(_)
+    {
+        if (currentBuilding != null)
+        {
+            if (currentBuilding.parent != null)
+            {
+                building_layer.removeChild(currentBuilding);
+            }
+            currentBuilding = null;
+        }
     }
 
     public function load(data:Dynamic)

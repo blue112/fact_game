@@ -52,7 +52,12 @@ class CraftWindow extends Window
                 {type: ItemType.STONE, quantity: 4},
             ]},
             {item: ItemType.RIM, components: [
-                {type: ItemType.IRON_BAR, quantity: 5},
+                {type: ItemType.IRON_BAR, quantity: 2},
+                {type: ItemType.GEAR, quantity: 1},
+            ]},
+            {item: ItemType.SRIM, components: [
+                {type: ItemType.RIM, quantity: 1},
+                {type: ItemType.IRON_BAR, quantity: 2},
             ]},
             {item: ItemType.GEAR, components: [
                 {type: ItemType.IRON_BAR, quantity: 1},

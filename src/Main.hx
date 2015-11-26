@@ -143,7 +143,10 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.CLOSE_ACTIVE_WINDOW, function(_)
         {
-            closeActiveWindow();
+            if (!closeActiveWindow())
+            {
+                EventManager.dispatch(new GameEvent(GameEvent.ESCAPE));
+            }
         });
         EventManager.listen(InventoryEvent.ADD_ITEM, function(e:InventoryEvent)
         {
@@ -178,7 +181,10 @@ class Main extends Sprite
         {
             activeWindow.close();
             activeWindow = null;
+            return true;
         }
+
+        return false;
     }
 
     private function onSave(_)

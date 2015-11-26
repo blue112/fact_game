@@ -6,6 +6,7 @@ import display.buildings.CraftingMachine;
 import display.buildings.MiningEngine;
 import display.buildings.Oven;
 import display.buildings.Rim;
+import display.buildings.SRim;
 import display.EmptyFuelSign;
 import display.NotWorkingSign;
 import display.Tile;
@@ -25,6 +26,7 @@ enum BuildingType
     CHEST;
     OVEN;
     RIM;
+    SRIM;
     CRAFTING_MACHINE;
 }
 
@@ -40,6 +42,7 @@ enum WorkState
 @:bitmap("assets/building_chest.png") class BuildingChestPNG extends BitmapData {}
 @:bitmap("assets/building_oven.png") class BuildingOvenPNG extends BitmapData {}
 @:bitmap("assets/building_rim.png") class BuildingRimPNG extends BitmapData {}
+@:bitmap("assets/building_srim.png") class BuildingSRimPNG extends BitmapData {}
 @:bitmap("assets/building_crafting_machine.png") class BuildingCraftingMachinePNG extends BitmapData {}
 
 class Building extends Sprite
@@ -50,7 +53,7 @@ class Building extends Sprite
     var map:Map;
     var sign:Sprite;
 
-    static private inline var MAX_LIFEPOINT = 50;
+    static private inline var MAX_LIFEPOINT = 25;
 
     var buildIcon:Sprite;
     var lifepoint:Int;
@@ -74,6 +77,7 @@ class Building extends Sprite
             case CHEST: new BuildingChestPNG(0, 0);
             case OVEN: new BuildingOvenPNG(0, 0);
             case RIM: new BuildingRimPNG(0, 0);
+            case SRIM: new BuildingSRimPNG(0, 0);
             case CRAFTING_MACHINE: new BuildingCraftingMachinePNG(0, 0);
         };
 
@@ -304,7 +308,7 @@ class Building extends Sprite
     {
         return switch (this.type)
         {
-            case CHEST, CRAFTING_MACHINE, OVEN, RIM, MINING_ENGINE: false;
+            case CHEST, CRAFTING_MACHINE, OVEN, RIM, SRIM, MINING_ENGINE: false;
             case CONVEYOR_BELT: true;
         }
     }
@@ -318,6 +322,7 @@ class Building extends Sprite
             case ItemType.CHEST: new Chest();
             case ItemType.OVEN: new Oven();
             case ItemType.RIM: new Rim();
+            case ItemType.SRIM: new SRim();
             case ItemType.CRAFTING_MACHINE: new CraftingMachine();
             default: throw "Trying to build an unbuildable item type: "+type;
         }
@@ -332,6 +337,7 @@ class Building extends Sprite
             case CHEST: ItemType.CHEST;
             case OVEN: ItemType.OVEN;
             case RIM: ItemType.RIM;
+            case SRIM: ItemType.SRIM;
             case CRAFTING_MACHINE: ItemType.CRAFTING_MACHINE;
         }
     }

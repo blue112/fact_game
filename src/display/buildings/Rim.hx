@@ -20,11 +20,14 @@ class Rim extends Building
     var state:RimState;
     var initial_rotation:Float;
 
-    public function new()
+    public function new(?type:BuildingType)
     {
         state = WAITING_FOR_ITEM;
 
-        super(RIM);
+        if (type == null)
+            type = RIM;
+
+        super(type);
     }
 
     override private function work()

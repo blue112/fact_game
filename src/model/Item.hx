@@ -19,6 +19,7 @@ import flash.display.Sprite;
 @:bitmap("assets/brick.png") class BrickPNG extends BitmapData {}
 @:bitmap("assets/craftingmachine.png") class CraftingMachinePNG extends BitmapData {}
 @:bitmap("assets/gear.png") class GearPNG extends BitmapData {}
+@:bitmap("assets/srim.png") class SRimPNG extends BitmapData {}
 
 enum ItemType
 {
@@ -36,6 +37,7 @@ enum ItemType
     BRICK;
     GEAR;
     CRAFTING_MACHINE;
+    SRIM;
 }
 
 class Item
@@ -80,6 +82,7 @@ class Item
             case BRICK: new BrickPNG(0,0);
             case GEAR: new GearPNG(0,0);
             case CRAFTING_MACHINE: new CraftingMachinePNG(0,0);
+            case SRIM: new SRimPNG(0,0);
         };
 
         return asset;
@@ -89,7 +92,7 @@ class Item
     {
         return switch (type)
         {
-            case MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM, BRICK, CRAFTING_MACHINE: true;
+            case SRIM, MINING_ENGINE, CONVEYOR_BELT, CHEST, OVEN, RIM, BRICK, CRAFTING_MACHINE: true;
             case COAL, IRON, WHEAT, BREAD, IRON_BAR, STONE, GEAR: false;
         }
     }
@@ -163,6 +166,7 @@ class Item
             case CHEST: "Chest";
             case OVEN: "Oven";
             case RIM: "Rotative Item Mover";
+            case SRIM: "Strong RIM";
             case GEAR: "Gear";
             case CRAFTING_MACHINE: "Automated Crafting Machine";
         };
