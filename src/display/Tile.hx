@@ -8,9 +8,14 @@ import flash.display.Sprite;
 import model.Item;
 
 @:bitmap("assets/tile_iron.png") class TileIronPNG extends BitmapData {}
+@:bitmap("assets/tile_iron2.png") class TileIron2PNG extends BitmapData {}
+@:bitmap("assets/tile_iron3.png") class TileIron3PNG extends BitmapData {}
 @:bitmap("assets/tile_coal.png") class TileCoalPNG extends BitmapData {}
+@:bitmap("assets/tile_coal2.png") class TileCoal2PNG extends BitmapData {}
+@:bitmap("assets/tile_coal3.png") class TileCoal3PNG extends BitmapData {}
 @:bitmap("assets/tile_wheat.png") class TileWheatPNG extends BitmapData {}
 @:bitmap("assets/tile_stone.png") class TileStonePNG extends BitmapData {}
+@:bitmap("assets/tile_stone2.png") class TileStone2PNG extends BitmapData {}
 
 enum TileType
 {
@@ -119,16 +124,18 @@ class Tile
 
     public function draw(on:Sprite, with_pos:Bool)
     {
-        var asset = switch (type)
+        var asset:Array<Class<BitmapData>> = switch (type)
         {
-            case COAL: new TileCoalPNG(0,0);
-            case IRON: new TileIronPNG(0,0);
-            case WHEAT: new TileWheatPNG(0,0);
-            case STONE: new TileStonePNG(0,0);
+            case COAL: [TileCoalPNG, TileCoal2PNG, TileCoal3PNG];
+            case IRON: [TileIronPNG, TileIron2PNG, TileIron3PNG];
+            case WHEAT: [TileWheatPNG];
+            case STONE: [TileStone2PNG, TileStonePNG];
         };
 
+        var pickedAsset:BitmapData = Type.createInstance(asset[Std.random(asset.length)], [0, 0]);
+
         on.graphics.lineStyle(1, 0);
-        on.graphics.beginBitmapFill(asset);
+        on.graphics.beginBitmapFill(pickedAsset);
 
         if (with_pos)
             on.graphics.drawRect(this.pos_x * Map.TILE_WIDTH, this.pos_y * Map.TILE_HEIGHT, Map.TILE_WIDTH, Map.TILE_HEIGHT);
