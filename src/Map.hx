@@ -106,7 +106,6 @@ class Map extends Sprite
             draw();
         }
 
-
         addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
         addEventListener(MouseEvent.MOUSE_DOWN, onStartInteract);
         addEventListener(MouseEvent.MOUSE_UP, onStopInteract);

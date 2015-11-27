@@ -38,36 +38,36 @@ class Inventory extends EventDispatcher
 
     public function removeItem(type:ItemType, quantity:Int)
     {
-        for (i in items)
+        for (n in 0...quantity)
         {
-            if (i.getType() == type)
+            for (i in items)
             {
-                if (i.getQuantity() <= quantity)
+                if (i.getType() == type)
                 {
-                    items.remove(i);
-                    dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
-                    return;
-                }
-                else
-                {
-                    i.setQuantity(i.getQuantity() - quantity);
-                    dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
+                    if (i.getQuantity() == 1)
+                        items.remove(i);
+                    else
+                        i.decrease();
+
+                    break;
                 }
             }
         }
+        dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
     }
 
     public function countItem(type:ItemType)
     {
+        var totalQuantity:Int = 0;
         for (i in items)
         {
             if (i.getType() == type)
             {
-                return i.getQuantity();
+                totalQuantity += i.getQuantity();
             }
         }
 
-        return 0;
+        return totalQuantity;
     }
 
     public function getItems()
@@ -77,26 +77,31 @@ class Inventory extends EventDispatcher
 
     public function addItem(item:Item)
     {
-        //Display text
-
-        var totalQuantity = 1;
-        for (i in items)
+        var added = item.getQuantity();
+        while (item.getQuantity() > 0)
         {
-            if (i.getType() == item.getType())
+            var notFullStackFound = false;
+            for (i in items)
             {
-                totalQuantity = i.increase(item.getQuantity());
-                dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
+                if (i.getType() == item.getType() && i.getQuantity() < i.getStackSize())
+                {
+                    i.increase();
+                    item.decrease();
+                    notFullStackFound = true;
+                }
+            }
+
+            if (!notFullStackFound)
+            {
+                //Not found
+                items.push(item);
+                break;
             }
         }
 
-        if (totalQuantity == 1)
-        {
-            //Not found
-            items.push(item);
-            dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
-        }
+        dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
 
-        return {item:item, totalQuantity: totalQuantity};
+        return {added: added,item:item, totalQuantity: countItem(item.getType())};
         //TODO: Handle inventory limit
     }
 }

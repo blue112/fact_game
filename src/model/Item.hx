@@ -59,9 +59,28 @@ class Item
         this.numPossessed = null;
     }
 
+    public function toString()
+    {
+        return '[Item type="$type" quantity="$quantity"]';
+    }
+
     public function addNumPossessed(n:Int)
     {
         numPossessed = n;
+    }
+
+    public function getStackSize()
+    {
+        return switch (type)
+        {
+            case STONE, WHEAT, IRON, COAL: 128;
+            case IRON_BAR: 256;
+            case BREAD: 8;
+            case MINING_ENGINE, CHEST, OVEN, RIM, SRIM, CRAFTING_MACHINE: 8;
+            case CONVEYOR_BELT: 32;
+            case BRICK: 32;
+            case GEAR: 128;
+        };
     }
 
     private function getBitmapData()

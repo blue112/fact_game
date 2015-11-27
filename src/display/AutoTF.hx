@@ -13,6 +13,7 @@ class AutoTF extends TextField
         super();
         autoSize = TextFieldAutoSize.LEFT;
         selectable = false;
+        mouseEnabled = false;
 
         var format = new TextFormat("Arial", size, color);
         defaultTextFormat = format;

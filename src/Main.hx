@@ -82,6 +82,10 @@ class Main extends Sprite
         {
             showWindow(new gui.CraftingMachineWindow(c.inventory, e.data));
         });
+        EventManager.listen(GUIEvent.OPEN_DEBUG_WINDOW, function(e:GUIEvent)
+        {
+            showWindow(new gui.DebugWindow());
+        });
         EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {
 
@@ -151,7 +155,7 @@ class Main extends Sprite
         EventManager.listen(InventoryEvent.ADD_ITEM, function(e:InventoryEvent)
         {
             var data = character.inventory.addItem(e.data);
-            new FloatingMessage("+"+data.item.getQuantity()+" "+data.item.getName()+" ("+data.totalQuantity+")");
+            new FloatingMessage("+"+data.added+" "+data.item.getName()+" ("+data.totalQuantity+")");
         });
         EventManager.listen(InventoryEvent.REMOVE_ITEM, function(e:InventoryEvent)
         {

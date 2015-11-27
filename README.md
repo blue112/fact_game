@@ -44,10 +44,12 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - [BONUS] Make conveyor belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
 - Make fields tiles disappear when a tile run empty
+- Debug window
+- Implement stack limit
 
 # Todo
 
-- Implement stack limit
+- Change the title of the chest window to "Chest"
 - Implement chest and inventory limit
 - Make the game bigger (128x128)
 - Allow the player to zoom in and out

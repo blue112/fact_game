@@ -50,6 +50,10 @@ class Controller
         {
             EventManager.dispatch(new GameEvent(GameEvent.SAVE));
         }
+        else if (e.keyCode == Keyboard.F1) //Debug window
+        {
+            EventManager.dispatch(new GUIEvent(GUIEvent.OPEN_DEBUG_WINDOW));
+        }
 
         keys.set(e.keyCode, false);
     }

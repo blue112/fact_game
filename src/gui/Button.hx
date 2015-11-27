@@ -19,6 +19,7 @@ class Button extends Sprite
         buttonMode = true;
 
         var label = new AutoTF(text, false, 12, 0xFFFFFF, true);
+        label.mouseEnabled = false;
         label.x = (BUTTON_WIDTH - label.width) / 2;
         label.y = (BUTTON_HEIGHT - label.height) / 2;
         addChild(label);
