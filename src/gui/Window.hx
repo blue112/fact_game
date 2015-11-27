@@ -62,6 +62,12 @@ class Window extends Sprite
         addChild(titleTF);
     }
 
+    public function setTitle(title:String)
+    {
+        titleTF.text = title;
+        titleTF.x = (windowWidth - titleTF.width) / 2;
+    }
+
     public function show()
     {
         update();

@@ -88,7 +88,6 @@ class Main extends Sprite
         });
         EventManager.listen(GUIEvent.OPEN_INVENTORY, function(e:GUIEvent)
         {
-
             var isPlayer = false;
             if (e.data == null)
             {

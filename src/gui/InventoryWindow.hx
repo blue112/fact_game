@@ -22,11 +22,23 @@ class InventoryWindow extends Window
         area = new InventoryArea(WINDOW_WIDTH, WINDOW_HEIGHT, inv, type);
         addChild(area);
 
-        super("Inventory", WINDOW_WIDTH, WINDOW_HEIGHT);
+        super(getName(type), WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+
+    private function getName(type:InventoryType)
+    {
+        return switch (type)
+        {
+            case PLAYER: "Inventory";
+            case CHEST: "Chest's content";
+            case CUSTOM(_): "Items";
+        }
     }
 
     public function setInventory(inv:Inventory, type:InventoryType)
     {
+        setTitle(getName(type));
+
         area.setInventory(inv, type);
     }
 
