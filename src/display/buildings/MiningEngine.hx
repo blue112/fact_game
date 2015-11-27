@@ -77,6 +77,9 @@ class MiningEngine extends Building
 
         var t = map.getTile(posX, posY);
 
+        if (t == null)
+            return CANNOT_WORK;
+
         var type = t.automatedInteract(SPEED);
         if (type != null)
         {

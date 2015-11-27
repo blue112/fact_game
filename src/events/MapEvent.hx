@@ -6,6 +6,7 @@ class MapEvent extends Event
 {
     public var data:Dynamic;
 
+    static public inline var REMOVE_TILE:String = "map_event_remove_tile";
     static public inline var HOVER_TILE:String = "map_event_hover_tile";
     static public inline var GATHERING_PROGRESS:String = "map_event_gathering_progress";
     static public inline var DECONSTRUCTING_PROGRESS:String = "map_event_deconstructing_progress";

@@ -28,8 +28,8 @@ enum TileType
 class Tile
 {
     var type:TileType;
-    var pos_x:Int;
-    var pos_y:Int;
+    public var pos_x:Int;
+    public var pos_y:Int;
     var quantity:Int;
     var lifepoint:Int;
 
@@ -101,6 +101,7 @@ class Tile
             lifepoint = getMaxLifePoint();
             //Get one elem and put it into player's inventory
             quantity--;
+            checkQuantity();
 
             return Item.tileToItem(this.type);
         }
@@ -118,7 +119,16 @@ class Tile
             lifepoint = getMaxLifePoint();
             //Get one elem and put it into player's inventory
             quantity--;
+            checkQuantity();
             EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(Item.tileToItem(this.type))));
+        }
+    }
+
+    private function checkQuantity()
+    {
+        if (quantity <= 0)
+        {
+            EventManager.dispatch(new MapEvent(MapEvent.REMOVE_TILE, this));
         }
     }
 

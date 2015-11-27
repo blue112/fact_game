@@ -43,9 +43,14 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Do not draw tiles outside the map boundaries
 - [BONUS] Make conveyor belts move item "visibly slowly"
 - [BONUS] Change ItemOnFloor class name to FloorItem
+- Make fields tiles disappear when a tile run empty
 
 # Todo
 
+- Implement stack limit
+- Implement chest and inventory limit
+- Make the game bigger (128x128)
+- Allow the player to zoom in and out
 - Make remote save system
 - Implements enemies
 - [BONUS] Look for focus lost to stop mining

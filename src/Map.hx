@@ -68,21 +68,6 @@ class Map extends Sprite
         tile_hl = new Sprite();
         addChild(tile_hl);
 
-        tile_layer.graphics.beginFill(0xEEEEEE);
-        tile_layer.graphics.drawRect(0, 0, MAP_WIDTH * TILE_WIDTH, MAP_HEIGHT * TILE_HEIGHT);
-
-        tile_layer.graphics.lineStyle(1);
-
-        //Let's draw the grid
-        for (x in 0...MAP_WIDTH)
-        {
-            for (y in 0...MAP_HEIGHT)
-            {
-                tile_layer.graphics.beginFill(0x000000, Std.random(10) / 100 + 0.1);
-                tile_layer.graphics.drawRect(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
-            }
-        }
-
         if (generate)
         {
             var numField = Std.random(7) + 7;
@@ -109,7 +94,6 @@ class Map extends Sprite
                             if (getTile(pos_x, pos_y) == null)
                             {
                                 var t = new Tile(field_type, pos_x, pos_y);
-                                t.draw(tile_layer, true);
                                 setTile(pos_x, pos_y, t);
                             }
                         }
@@ -118,7 +102,10 @@ class Map extends Sprite
             }
 
             putFloorItem(19, 19, MINING_ENGINE);
+
+            draw();
         }
+
 
         addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
         addEventListener(MouseEvent.MOUSE_DOWN, onStartInteract);
@@ -130,6 +117,14 @@ class Map extends Sprite
         EventManager.listen(BuildEvent.START_BUILDING, onStartBuilding);
         EventManager.listen(BuildEvent.ROTATE_BUILDING, onRotateBuildAsked);
         EventManager.listen(GameEvent.ESCAPE, stopBuilding);
+        EventManager.listen(MapEvent.REMOVE_TILE, onRemoveTile);
+    }
+
+    private function onRemoveTile(e:MapEvent)
+    {
+        var tile:Tile = e.data;
+        removeTile(tile);
+        draw();
     }
 
     private function stopBuilding(_)
@@ -144,17 +139,37 @@ class Map extends Sprite
         }
     }
 
+    private function draw()
+    {
+        tile_layer.graphics.clear();
+        tile_layer.graphics.lineStyle(1);
+
+        for (i in tiles)
+        {
+            i.draw(tile_layer, true);
+        }
+
+        //Let's draw the grid
+        for (x in 0...MAP_WIDTH)
+        {
+            for (y in 0...MAP_HEIGHT)
+            {
+                tile_layer.graphics.beginFill(0x000000, Std.random(10) / 100 + 0.1);
+                tile_layer.graphics.drawRect(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+            }
+        }
+    }
+
     public function load(data:Dynamic)
     {
-        //TODO : Reinit map ?
-
         //Load tiles
         for (i in (data.tiles:Array<Dynamic>))
         {
             var t = Tile.load(i);
-            t.draw(tile_layer, true);
             setTile(i.pos_x, i.pos_y, t);
         }
+
+        draw();
 
         //Load floor items
         for (i in (data.floorItems:Array<Dynamic>))
@@ -231,6 +246,11 @@ class Map extends Sprite
     private function setTile(x:Int, y:Int, t:Tile)
     {
         tiles.set(x+";"+y, t);
+    }
+
+    private function removeTile(t:Tile)
+    {
+        tiles.remove(t.pos_x+";"+t.pos_y);
     }
 
     public function putFloorItem(x:Int, y:Int, t:ItemType)
