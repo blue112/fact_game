@@ -49,8 +49,8 @@ class Item
     static public inline var ITEM_WIDTH:Int = 50;
     static public inline var ITEM_HEIGHT:Int = 50;
 
-    static public inline var ITEM_FLOOR_WIDTH:Int = 20;
-    static public inline var ITEM_FLOOR_HEIGHT:Int = 20;
+    static public inline var ITEM_FLOOR_WIDTH:Int = 80;
+    static public inline var ITEM_FLOOR_HEIGHT:Int = 80;
 
 
     public function new(type:ItemType, ?quantity:Int = 1)

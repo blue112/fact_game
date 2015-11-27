@@ -27,6 +27,8 @@ class Character extends Sprite
     static public inline var DIRECTION_DOWN:Int = 2;
     static public inline var DIRECTION_LEFT:Int = 3;
 
+    static private inline var FRAME_TIME:Int = 5;
+
     static public inline var MAX_HUNGER:Int = 100;
 
     static public function getInstance()
@@ -97,8 +99,8 @@ class Character extends Sprite
 
     private function animate(_)
     {
-        animation_state = (animation_state + 1) % 4;
-        charSprite.set(animation_state, direction);
+        animation_state = (animation_state + 1) % (4 * FRAME_TIME);
+        charSprite.set(Math.floor(animation_state / FRAME_TIME), direction);
     }
 
     private function set_pos_x(v:Int):Int

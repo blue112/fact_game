@@ -48,11 +48,11 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Implement stack limit
 - Change the title of the chest window to "Chest"
 - Implement chest and inventory limit
+- Make the game bigger (128x128)
 
 # Todo
 
-- Make the game bigger (128x128)
-- Allow the player to zoom in and out
+- [EPIC] Zoom in and out using mouse wheel
 - Make remote save system
 - Implements enemies
 - [BONUS] When the inventory limit is reached, try to add not-full stacks

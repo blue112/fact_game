@@ -25,6 +25,12 @@ class Viewport extends Sprite
         updateMapPos(null);
     }
 
+    public function setSize(w:Int, h:Int)
+    {
+        this.vp_width = w;
+        this.vp_height = h;
+    }
+
     public function updateMapPos(_)
     {
         map.x = this.vp_width / 2 - (character.pos_x * Map.TILE_WIDTH);

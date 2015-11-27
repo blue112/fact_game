@@ -11,6 +11,9 @@ class Controller
     var keys:IntMap<Bool>;
     var char:Character;
 
+    var moveProgress:Int;
+    static private inline var FRAME_TO_MOVE = 5;
+
     public function new(char:Character)
     {
         keys = new IntMap();
@@ -67,31 +70,55 @@ class Controller
     {
         if (isKeyDown(Keyboard.LEFT))
         {
-            char.set_direction(Character.DIRECTION_LEFT);
-            char.set_walking(true);
-            char.pos_x--;
+            if (canMove())
+            {
+                char.set_direction(Character.DIRECTION_LEFT);
+                char.set_walking(true);
+                char.pos_x--;
+            }
         }
         else if (isKeyDown(Keyboard.RIGHT))
         {
-            char.set_direction(Character.DIRECTION_RIGHT);
-            char.set_walking(true);
-            char.pos_x++;
+            if (canMove())
+            {
+                char.set_direction(Character.DIRECTION_RIGHT);
+                char.set_walking(true);
+                char.pos_x++;
+            }
         }
         else if (isKeyDown(Keyboard.UP))
         {
-            char.set_direction(Character.DIRECTION_UP);
-            char.set_walking(true);
-            char.pos_y--;
+            if (canMove())
+            {
+                char.set_direction(Character.DIRECTION_UP);
+                char.set_walking(true);
+                char.pos_y--;
+            }
         }
         else if (isKeyDown(Keyboard.DOWN))
         {
-            char.set_direction(Character.DIRECTION_DOWN);
-            char.set_walking(true);
-            char.pos_y++;
+            if (canMove())
+            {
+                char.set_direction(Character.DIRECTION_DOWN);
+                char.set_walking(true);
+                char.pos_y++;
+            }
         }
         else
         {
             char.set_walking(false);
         }
+    }
+
+    private function canMove()
+    {
+        if (moveProgress < FRAME_TO_MOVE)
+        {
+            moveProgress++;
+            return false;
+        }
+
+        moveProgress = 0;
+        return true;
     }
 }

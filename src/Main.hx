@@ -28,6 +28,8 @@ class Main extends Sprite
     var map:Map;
     var character:Character;
 
+    var viewport:Viewport;
+
     static private inline var LOAD_SAVE:Bool = true;
 
     public function new()
@@ -44,7 +46,7 @@ class Main extends Sprite
 
         this.character = c;
 
-        var viewport = new Viewport(stage.stageWidth, stage.stageHeight, map, c);
+        viewport = new Viewport(stage.stageWidth, stage.stageHeight, map, c);
 
         addChild(map);
 
@@ -232,6 +234,8 @@ class Main extends Sprite
         infoView.x = stage.stageWidth - infoView.width;
         infoView.y = stage.stageHeight - infoView.height;
         hungerbar.x = stage.stageWidth - hungerbar.width - 10;
+
+        viewport.setSize(stage.stageWidth, stage.stageHeight);
 
         if (activeWindow != null)
         {

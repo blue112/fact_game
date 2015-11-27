@@ -20,8 +20,8 @@ class Map extends Sprite
 {
     var character:Character;
 
-    static public inline var TILE_WIDTH:Int = 32;
-    static public inline var TILE_HEIGHT:Int = 32;
+    static public inline var TILE_WIDTH:Int = 128;
+    static public inline var TILE_HEIGHT:Int = 128;
     static public inline var MAP_WIDTH:Int = 50;
     static public inline var MAP_HEIGHT:Int = 50;
     static public inline var BACKGROUND_COLOR:Int = 0xCCCCCC;
