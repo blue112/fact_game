@@ -9,9 +9,13 @@ class Inventory extends EventDispatcher
 {
     var items:Array<Item>;
 
-    public function new()
+    var limit:Int;
+
+    public function new(?limit:Int = 24)
     {
         super();
+
+        this.limit = limit;
 
         items = [];
     }
@@ -75,13 +79,29 @@ class Inventory extends EventDispatcher
         return items.copy();
     }
 
-    public function addItem(item:Item)
+    public function clone()
     {
-        var added = item.getQuantity();
+        var inv = new Inventory();
+        inv.items = [for (i in items) i.clone()];
+        inv.limit = limit;
+        return inv;
+    }
+
+    public function canAddItem(item:Item)
+    {
+        var remaining_slot:Int = limit - items.length;
+
+        var itemCopy = [];
+        for (i in items)
+        {
+            itemCopy.push(i.clone());
+        }
+
+        item = item.clone();
         while (item.getQuantity() > 0)
         {
             var notFullStackFound = false;
-            for (i in items)
+            for (i in itemCopy)
             {
                 if (i.getType() == item.getType() && i.getQuantity() < i.getStackSize())
                 {
@@ -94,14 +114,51 @@ class Inventory extends EventDispatcher
             if (!notFullStackFound)
             {
                 //Not found
-                items.push(item);
-                break;
+                if (remaining_slot > 0)
+                {
+                    remaining_slot--;
+                    return true;
+                }
+
+                return false;
             }
         }
 
-        dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
+        return true;
+    }
 
-        return {added: added,item:item, totalQuantity: countItem(item.getType())};
-        //TODO: Handle inventory limit
+    public function addItem(item:Item)
+    {
+        if (canAddItem(item))
+        {
+            item = item.clone();
+            var added = item.getQuantity();
+            while (item.getQuantity() > 0)
+            {
+                var notFullStackFound = false;
+                for (i in items)
+                {
+                    if (i.getType() == item.getType() && i.getQuantity() < i.getStackSize())
+                    {
+                        i.increase();
+                        item.decrease();
+                        notFullStackFound = true;
+                    }
+                }
+
+                if (!notFullStackFound)
+                {
+                    //Not found
+                    items.push(item);
+                    break;
+                }
+            }
+
+            dispatchEvent(new InventoryEvent(InventoryEvent.CHANGE));
+
+            return {added: added,item:item, totalQuantity: countItem(item.getType())};
+        }
+
+        return null;
     }
 }

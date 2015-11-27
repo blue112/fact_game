@@ -14,6 +14,8 @@ class FloatingMessage extends Sprite
 
         addChild(new AutoTF(text, true, 30, 0xFFFFFF, true));
 
+        mouseEnabled = false;
+
         this.x = (Lib.current.stage.stageWidth - this.width) / 2;
         this.y = (Lib.current.stage.stageHeight - this.height) / 2;
 

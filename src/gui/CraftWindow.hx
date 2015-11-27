@@ -138,24 +138,27 @@ class CraftWindow extends Window
 
         var craftButton = new Button("Craft", function()
         {
-            //Check I have components
-            for (i in recipe.components)
+            if (Character.getInstance().inventory.canAddItem(new Item(recipe.item)))
             {
-                if (inventory.countItem(i.type) < i.quantity)
-                    return;
+                //Check I have components
+                for (i in recipe.components)
+                {
+                    if (inventory.countItem(i.type) < i.quantity)
+                        return;
+                }
+
+                //Remove them from inventory
+                for (i in recipe.components)
+                {
+                    inventory.removeItem(i.type, i.quantity);
+                }
+
+                //Add resulting item into inventory
+                EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(recipe.item)));
+
+                //Update view
+                onRecipeClick(activeRecipe, null);
             }
-
-            //Remove them from inventory
-            for (i in recipe.components)
-            {
-                inventory.removeItem(i.type, i.quantity);
-            }
-
-            //Add resulting item into inventory
-            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(recipe.item)));
-
-            //Update view
-            onRecipeClick(activeRecipe, null);
         });
         craftButton.x = (w - craftButton.width) / 2;
         craftButton.y = WINDOW_HEIGHT - MARGIN;

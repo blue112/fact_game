@@ -154,7 +154,10 @@ class Main extends Sprite
         EventManager.listen(InventoryEvent.ADD_ITEM, function(e:InventoryEvent)
         {
             var data = character.inventory.addItem(e.data);
-            new FloatingMessage("+"+data.added+" "+data.item.getName()+" ("+data.totalQuantity+")");
+            if (data != null)
+            {
+                new FloatingMessage("+"+data.added+" "+data.item.getName()+" ("+data.totalQuantity+")");
+            }
         });
         EventManager.listen(InventoryEvent.REMOVE_ITEM, function(e:InventoryEvent)
         {

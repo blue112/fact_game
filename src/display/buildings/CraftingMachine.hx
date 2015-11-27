@@ -94,6 +94,22 @@ class CraftingMachine extends Building
 
     override private function onDeconstructed()
     {
+        var invClone = Character.getInstance().inventory.clone();
+        for (i in components)
+        {
+            if (i != null)
+            {
+                if (invClone.canAddItem(i))
+                {
+                    invClone.addItem(i);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         for (i in components)
         {
             if (i != null)
@@ -101,6 +117,8 @@ class CraftingMachine extends Building
                 EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, i));
             }
         }
+
+        return true;
     }
 
     override public function interact()

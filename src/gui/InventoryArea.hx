@@ -108,8 +108,12 @@ class InventoryArea extends Sprite
                     EventManager.dispatch(new BuildEvent(BuildEvent.START_BUILDING, item));
                 }
             case CHEST:
-                EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(item.getType(), item.getQuantity())));
-                inventoryModel.removeItem(item.getType(), item.getQuantity());
+                var toAdd = new Item(item.getType(), item.getQuantity());
+                if (Character.getInstance().inventory.canAddItem(toAdd))
+                {
+                    EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, toAdd));
+                    inventoryModel.removeItem(item.getType(), item.getQuantity());
+                }
             case CUSTOM(cb):
                 cb(item);
         }

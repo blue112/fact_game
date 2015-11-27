@@ -93,8 +93,17 @@ class MiningEngine extends Building
     {
         if (fuel_slot != null)
         {
-            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, fuel_slot));
+            if (Character.getInstance().inventory.canAddItem(fuel_slot))
+            {
+                EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, fuel_slot));
+            }
+            else
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 
     override public function isBuildable(tile:Tile)

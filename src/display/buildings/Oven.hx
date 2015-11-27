@@ -84,6 +84,22 @@ class Oven extends Building
 
     override private function onDeconstructed()
     {
+        var invClone = Character.getInstance().inventory.clone();
+        for (i in [fuel_slot, ore_slot])
+        {
+            if (i != null)
+            {
+                if (invClone.canAddItem(i))
+                {
+                    invClone.addItem(i);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         if (fuel_slot != null)
         {
             EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, fuel_slot));
@@ -92,6 +108,8 @@ class Oven extends Building
         {
             EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, ore_slot));
         }
+
+        return true;
     }
 
     override public function addItem(item:Item):Bool

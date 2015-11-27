@@ -52,6 +52,7 @@ class Item
     static public inline var ITEM_FLOOR_WIDTH:Int = 20;
     static public inline var ITEM_FLOOR_HEIGHT:Int = 20;
 
+
     public function new(type:ItemType, ?quantity:Int = 1)
     {
         this.type = type;
@@ -62,6 +63,15 @@ class Item
     public function toString()
     {
         return '[Item type="$type" quantity="$quantity"]';
+    }
+
+    public function clone():Item
+    {
+        var i = new Item(this.type, this.quantity);
+        if (numPossessed != null)
+            i.addNumPossessed(numPossessed);
+
+        return i;
     }
 
     public function addNumPossessed(n:Int)

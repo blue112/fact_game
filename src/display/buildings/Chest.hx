@@ -12,7 +12,7 @@ class Chest extends Building
 
     public function new()
     {
-        inventory = new Inventory();
+        inventory = new Inventory(1);
 
         super(CHEST);
     }
@@ -34,15 +34,30 @@ class Chest extends Building
 
     override private function onDeconstructed()
     {
+        var invClone = Character.getInstance().inventory.clone();
+        for (i in inventory.getItems())
+        {
+            if (invClone.canAddItem(i))
+            {
+                invClone.addItem(i);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         for (i in inventory.getItems())
         {
             EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, i));
         }
+
+        return true;
     }
 
-    override private function acceptItem(_)
+    override private function acceptItem(item:ItemType)
     {
-        return true;
+        return inventory.canAddItem(new Item(item));
     }
 
     override public function interact()
@@ -53,8 +68,7 @@ class Chest extends Building
 
     override private function addItem(item:Item)
     {
-        inventory.addItem(item);
-        return true;
+        return inventory.addItem(item) != null;
     }
 
     override private function work()

@@ -47,14 +47,15 @@ You can follow development on livecoding.tv : https://www.livecoding.tv/blue112/
 - Debug window
 - Implement stack limit
 - Change the title of the chest window to "Chest"
+- Implement chest and inventory limit
 
 # Todo
 
-- Implement chest and inventory limit
 - Make the game bigger (128x128)
 - Allow the player to zoom in and out
 - Make remote save system
 - Implements enemies
+- [BONUS] When the inventory limit is reached, try to add not-full stacks
 - [BONUS] Look for focus lost to stop mining
 - Add nice graphics (help needed)
 - Create a nice game

@@ -455,10 +455,13 @@ class Map extends Sprite
         //Is there a floor item here ?
         if (hasFloorItem(posX, posY))
         {
-            var floorItem = pickOneFloorItem(posX, posY);
-
-            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, floorItem.getItem()));
-            flooritem_layer.removeChild(floorItem);
+            var floorItem = getFloorItem(posX, posY);
+            if (character.inventory.canAddItem(floorItem.getItem()))
+            {
+                floorItem = pickOneFloorItem(posX, posY);
+                EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, floorItem.getItem()));
+                flooritem_layer.removeChild(floorItem);
+            }
             return;
         }
 
@@ -492,14 +495,16 @@ class Map extends Sprite
 
     private function onDeconstructing(_)
     {
-        if (deconstructingBuilding.deconstruct())
+        if (character.inventory.canAddItem(new Item(deconstructingBuilding.toItemType(), 1)))
         {
-            //TODO : Buildings with inventory or slots (oven, chests...)
-            removeBuilding(deconstructingBuilding);
-            EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(deconstructingBuilding.toItemType())));
+            if (deconstructingBuilding.deconstruct())
+            {
+                removeBuilding(deconstructingBuilding);
+                EventManager.dispatch(new InventoryEvent(InventoryEvent.ADD_ITEM, new Item(deconstructingBuilding.toItemType())));
 
-            deconstructingBuilding = null;
-            removeEventListener(Event.ENTER_FRAME, onDeconstructing);
+                deconstructingBuilding = null;
+                removeEventListener(Event.ENTER_FRAME, onDeconstructing);
+            }
         }
     }
 

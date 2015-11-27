@@ -14,6 +14,8 @@ class Character extends Sprite
     public var inventory:Inventory;
     public var hunger:Int;
 
+    static private var instance:Character;
+
     public var charSprite:SpriteDisplay;
     private var direction:Int;
     private var animation_state:Int;
@@ -27,9 +29,16 @@ class Character extends Sprite
 
     static public inline var MAX_HUNGER:Int = 100;
 
+    static public function getInstance()
+    {
+        return instance;
+    }
+
     public function new(m:Map)
     {
         super();
+
+        instance = this;
 
         this.map = m;
 

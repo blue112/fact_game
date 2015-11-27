@@ -128,12 +128,14 @@ class Building extends Sprite
 
     public function deconstruct()
     {
-        lifepoint--;
-        EventManager.dispatch(new MapEvent(MapEvent.DECONSTRUCTING_PROGRESS, {lifepoint: lifepoint, max:MAX_LIFEPOINT}));
         if (lifepoint == 0)
         {
-            onDeconstructed();
-            return true;
+            return onDeconstructed();
+        }
+        else
+        {
+            lifepoint--;
+            EventManager.dispatch(new MapEvent(MapEvent.DECONSTRUCTING_PROGRESS, {lifepoint: lifepoint, max:MAX_LIFEPOINT}));
         }
 
         return false;
@@ -142,6 +144,7 @@ class Building extends Sprite
     private function onDeconstructed()
     {
         //Handle inventory or slots
+        return true;
     }
 
     public function resetLP()
